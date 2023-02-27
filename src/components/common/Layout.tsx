@@ -1,17 +1,33 @@
 import { Button, Box } from "@mui/material";
 import "./Layout.css";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <Box className="Layout">
-      <Link to="/">
-        <Button variant="contained">Hi</Button>
-      </Link>
-      <Button variant="contained" sx={{ ml: 2 }}>
-        Hello World
-      </Button>
-    </Box>
+    <>
+      <Box className="Layout">
+        <Link to="/">
+          <Button>Home</Button>
+        </Link>
+        <Link to="/nutritions">
+          <Button sx={{ ml: 2 }}>Nutritions</Button>
+        </Link>
+        <Link to="/app">
+          <Button sx={{ ml: 2 }}>App</Button>
+        </Link>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          p: 3,
+        }}
+      >
+        <Outlet />
+      </Box>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ root.render(
       {/* <App /> */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/nu" element={<Nutritions />} />
+          <Route path="/nutritions" element={<Nutritions />} />
           <Route path="/app" element={<App />} />
           {/* <Route index element={<Nutritions />} />
           <Route path="blogs" element={<Blogs />} />
