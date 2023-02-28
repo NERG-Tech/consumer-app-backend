@@ -58,13 +58,15 @@ const Nutritions = () => {
   console.log("data", data);
   console.log("foods", foods);
 
-  const [protein, setProtein] = useState(0);
+  const [protein, setProtein] = useState<number>(0);
+  const [proteinUnit, setProteinUnit] = useState<string>();
 
   useEffect(() => {
     let pro = 0;
     cart.map((cart) => {
       // console.log("foodNutrientId ", cart.foodNutrients[0].foodNutrientId);
       pro += cart.foodNutrients[0].value * cart.quantity;
+      setProteinUnit(cart.foodNutrients[0].unitName);
     });
     console.log(pro);
     setProtein(pro);
@@ -114,7 +116,7 @@ const Nutritions = () => {
             >
               RESET ALL
             </Button>
-            <Box sx={{ mt: 2 }}>Selected:</Box>
+            <Box sx={{ mt: 2 }}>Selected Items:</Box>
             <Box>
               {cart.map((cart, index) => {
                 return (
@@ -131,14 +133,26 @@ const Nutritions = () => {
                       Name:{" "}
                       <span style={{ fontWeight: "bold" }}>{cart.name}</span>
                     </Box>
-                    <Box>Desc: {cart.description}</Box>
+                    <Box sx={{ pt: 1 }}>Desc: {cart.description}</Box>
                     <Box>Qty: {cart.quantity}</Box>
+                    <Box sx={{ pt: 1 }}>
+                      Protein: {cart.foodNutrients[0].value}
+                    </Box>
+                    <Box>
+                      Protein * Quantity = {cart.foodNutrients[0].value} *{" "}
+                      {cart.quantity} ={" "}
+                      {cart.foodNutrients[0].value * cart.quantity}{" "}
+                      {cart.foodNutrients[0].unitName}
+                    </Box>
                   </Box>
                 );
               })}
             </Box>
             <Box>
-              Result: <Box sx={{ pt: 2 }}>Protein {protein.toFixed(2)}</Box>
+              <span style={{ fontWeight: "bold" }}>Result</span>:{" "}
+              <Box sx={{ pt: 2 }}>
+                Total Protein {protein.toFixed(2)} {proteinUnit}
+              </Box>
             </Box>
           </Box>
         </Box>
