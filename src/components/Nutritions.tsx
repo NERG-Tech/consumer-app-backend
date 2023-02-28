@@ -2,14 +2,20 @@ import { useState } from "react";
 import axios from "axios";
 import { Button, Box, TextField } from "@mui/material";
 import Accordian from "./Accordian";
+import { useAppSelector } from "../store/store";
+import { resetCart } from "../store/features/foodSlice";
+import { useAppDispatch } from "../store/store";
 
 const Nutritions = () => {
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart.cart);
   const [data, setData] = useState();
   const [foods, setFoods] = useState<
     Array<{
       description: string;
     }>
   >([]);
+
   const [ingredient, setIngredient] = useState<string>();
   const [loading, setLoading] = useState(false);
 
@@ -45,8 +51,8 @@ const Nutritions = () => {
     setLoading(false);
   };
 
-  // console.log("data", data);
-  // console.log("foods", foods);
+  console.log("data", data);
+  console.log("foods", foods);
 
   return (
     <Box>
@@ -58,7 +64,7 @@ const Nutritions = () => {
       ) : (
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
               <Box sx={{ pr: 2, fontWeight: "bold" }}> Search on usda.gov</Box>
               <TextField
                 placeholder="Ingredients"
@@ -82,8 +88,39 @@ const Nutritions = () => {
             </Box>
           </Box>
 
-          <Box sx={{ minWidth: "300px", backgroundColor: "#F0F8FF", p: 4 }}>
-            Selected:
+          <Box
+            sx={{ minWidth: "300px", backgroundColor: "#F0F8FF", p: 4, ml: 1 }}
+          >
+            {/* <Box onClick={() => dispatch(resetCart({}))}>Reset All</Box> */}
+            <Button
+              onClick={() => dispatch(resetCart({}))}
+              sx={{ border: "1px solid lightgray", backgroundColor: "white" }}
+            >
+              RESET ALL
+            </Button>
+            <Box sx={{ mt: 2 }}>Selected:</Box>
+            <Box>
+              {cart.map((cart, index) => {
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      border: "1px solid lightgray",
+                      m: 2,
+                      p: 2,
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <Box>
+                      Name:{" "}
+                      <span style={{ fontWeight: "bold" }}>{cart.name}</span>
+                    </Box>
+                    <Box>Desc: {cart.description}</Box>
+                    <Box>Qty: {cart.quantity}</Box>
+                  </Box>
+                );
+              })}
+            </Box>
           </Box>
         </Box>
       )}
