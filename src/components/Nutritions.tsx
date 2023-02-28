@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Box, TextField } from "@mui/material";
 import Accordian from "./Accordian";
@@ -9,6 +9,10 @@ import { useAppDispatch } from "../store/store";
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
+
+  // Console Cart
+  console.log("cart", cart);
+
   const [data, setData] = useState();
   const [foods, setFoods] = useState<
     Array<{
@@ -53,6 +57,18 @@ const Nutritions = () => {
 
   console.log("data", data);
   console.log("foods", foods);
+
+  const [protein, setProtein] = useState(0);
+
+  useEffect(() => {
+    let pro = 0;
+    cart.map((cart) => {
+      // console.log("foodNutrientId ", cart.foodNutrients[0].foodNutrientId);
+      pro += cart.foodNutrients[0].value * cart.quantity;
+    });
+    console.log(pro);
+    setProtein(pro);
+  }, [cart]);
 
   return (
     <Box>
@@ -120,6 +136,9 @@ const Nutritions = () => {
                   </Box>
                 );
               })}
+            </Box>
+            <Box>
+              Result: <Box sx={{ pt: 2 }}>Protein {protein.toFixed(2)}</Box>
             </Box>
           </Box>
         </Box>

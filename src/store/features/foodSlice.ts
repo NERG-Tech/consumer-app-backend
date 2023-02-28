@@ -1,9 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// type arrayType = {
+//   foodNutrientId: number;
+// };
 export interface Food {
   name: string;
   description: string;
   quantity: number;
+  foodNutrients: Array<{
+    foodNutrientId: string;
+    nutrientName: string;
+    unitName: string;
+    value: number;
+  }>;
 }
 
 interface CartState {
@@ -24,12 +33,12 @@ export const FoodSlice = createSlice({
         name: string;
         description: string;
         quantity: number;
+        foodNutrients: Array<any>;
       }>
     ) => {
       let objIndex = state.cart.findIndex(
-        (obj) => obj.name == action.payload.name
+        (obj) => obj.name === action.payload.name
       );
-      console.log("objIndex", objIndex);
 
       if (objIndex > -1) {
         let oldQuantity = state.cart[objIndex].quantity;
@@ -37,12 +46,14 @@ export const FoodSlice = createSlice({
           name: action.payload.name,
           description: action.payload.description,
           quantity: oldQuantity + action.payload.quantity,
+          foodNutrients: action.payload.foodNutrients,
         });
       } else {
         state.cart.push({
           name: action.payload.name,
           description: action.payload.description,
           quantity: action.payload.quantity,
+          foodNutrients: action.payload.foodNutrients,
         });
       }
     },

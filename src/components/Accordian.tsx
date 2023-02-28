@@ -12,6 +12,7 @@ export interface Props {
     foodCategory: string;
     allHighlightFields: string;
     additionalDescriptions: string;
+    foodNutrients: Array<Array<any>>;
   };
 }
 
@@ -20,8 +21,6 @@ const Accordian = (props: Props) => {
 
   const [show, setShow] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
-
-  console.log(show);
 
   return (
     <Box sx={{ cursor: "pointer" }}>
@@ -65,6 +64,7 @@ const Accordian = (props: Props) => {
                   name: props.food.foodCategory,
                   description: props.food.description,
                   quantity: 1,
+                  foodNutrients: props.food.foodNutrients,
                 })
               )
             }
