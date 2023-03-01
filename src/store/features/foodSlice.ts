@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// type arrayType = {
-//   foodNutrientId: number;
-// };
 export interface Food {
   name: string;
   description: string;
@@ -28,6 +25,16 @@ export const FoodSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    removeCart: (
+      state,
+      action: PayloadAction<{
+        description: string;
+      }>
+    ) => {
+      state.cart = state.cart.filter(
+        (item) => item.description !== action.payload.description
+      );
+    },
     addCart: (
       state,
       action: PayloadAction<{
@@ -67,4 +74,4 @@ export const FoodSlice = createSlice({
   },
 });
 export default FoodSlice.reducer;
-export const { addCart, resetCart } = FoodSlice.actions;
+export const { addCart, resetCart, removeCart } = FoodSlice.actions;

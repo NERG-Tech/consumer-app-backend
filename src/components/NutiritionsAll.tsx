@@ -3,14 +3,13 @@ import axios from "axios";
 import { Button, Box, TextField } from "@mui/material";
 import Accordian from "./Accordian";
 import { useAppSelector } from "../store/store";
-import { resetCart } from "../store/features/foodSlice";
+import { resetCart, removeCart } from "../store/features/foodSlice";
 import { useAppDispatch } from "../store/store";
 
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
 
-  // Console Cart
   console.log("cart", cart);
 
   const [data, setData] = useState();
@@ -64,11 +63,10 @@ const Nutritions = () => {
   useEffect(() => {
     let pro = 0;
     cart.map((cart) => {
-      // console.log("foodNutrientId ", cart.foodNutrients[0].foodNutrientId);
       pro += cart.foodNutrients[0].value * cart.quantity;
       setProteinUnit(cart.foodNutrients[0].unitName);
     });
-    console.log(pro);
+
     setProtein(pro);
   }, [cart]);
 
@@ -114,7 +112,6 @@ const Nutritions = () => {
           <Box
             sx={{ minWidth: "300px", backgroundColor: "#F0F8FF", p: 4, ml: 1 }}
           >
-            {/* <Box onClick={() => dispatch(resetCart({}))}>Reset All</Box> */}
             <Button
               onClick={() => dispatch(resetCart({}))}
               sx={{ border: "1px solid lightgray", backgroundColor: "white" }}
@@ -151,6 +148,14 @@ const Nutritions = () => {
                       {(cart.foodNutrients[0].value * cart.quantity).toFixed(2)}{" "}
                       {cart.foodNutrients[0].unitName}
                     </Box>
+                    <Button
+                      onClick={() =>
+                        dispatch(removeCart({ description: cart.description }))
+                      }
+                      sx={{ mt: 2, border: "1px solid lightgrey" }}
+                    >
+                      Remove From Cart
+                    </Button>
                   </Box>
                 );
               })}
