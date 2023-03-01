@@ -16,10 +16,14 @@ export interface Food {
 
 interface CartState {
   cart: Food[];
+  protein: number;
+  water: number;
 }
 
 const initialState: CartState = {
   cart: [],
+  protein: 0,
+  water: 0,
 };
 
 export const FoodSlice = createSlice({
@@ -57,6 +61,7 @@ export const FoodSlice = createSlice({
       );
 
       if (objIndex > -1) {
+        // when there is existing item
         let oldQuantity = state.cart[objIndex].quantity;
         state.cart.splice(objIndex, 1, {
           name: action.payload.name,
@@ -67,6 +72,7 @@ export const FoodSlice = createSlice({
           gramPerWeight: action.payload.gramPerWeight,
         });
       } else {
+        // push a new item
         state.cart.push({
           name: action.payload.name,
           description: action.payload.description,
