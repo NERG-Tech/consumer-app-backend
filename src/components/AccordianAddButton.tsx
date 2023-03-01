@@ -15,10 +15,13 @@ type FoodType = {
 interface Props {
   measure: MeasureType;
   food: FoodType;
+  disseminationText: string;
+  gramPerWeight: number;
 }
 
 const AccordianAddButton = (props: Props) => {
   const dispatch = useAppDispatch();
+  //   console.log("gramWeight", props.gramWeight);
 
   const [quantity, setQuantity] = React.useState(1);
   return (
@@ -46,7 +49,8 @@ const AccordianAddButton = (props: Props) => {
                 description: props.food.description,
                 quantity: quantity,
                 foodNutrients: props.food.foodNutrients,
-                foodMeasures: props.food.foodMeasures,
+                disseminationText: props.measure.disseminationText,
+                gramPerWeight: props.gramPerWeight,
               })
             )
           }
