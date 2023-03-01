@@ -25,7 +25,7 @@ const Nutritions = () => {
 
   const getDataWithPageNumber = async (i: number) => {
     // Branded is removed
-    let added = `&pageSize=200&pageNumber=${i}&dataType=Foundation,Survey%20%28FNDDS%29`;
+    let added = `&pageSize=200&pageNumber=${i}&dataType=Foundation,Survey%20%28FNDDS%29&requireAllWords=Yes`;
     const options = {
       method: "GET",
       url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}`,
@@ -83,7 +83,12 @@ const Nutritions = () => {
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
             <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
-              <Box sx={{ pr: 2, fontWeight: "bold" }}> Search on usda.gov</Box>
+              <Box sx={{ pr: 2, fontWeight: "bold" }}>
+                {" "}
+                Search on usda.gov
+                <br />
+                (Required All)
+              </Box>
               <TextField
                 placeholder="Ingredients"
                 onChange={(e) => setIngredient(e.target.value)}

@@ -13,6 +13,7 @@ export interface Props {
     allHighlightFields: string;
     additionalDescriptions: string;
     foodNutrients: Array<Array<any>>;
+    foodMeasures: Array<any>;
   };
 }
 
@@ -47,31 +48,46 @@ const Accordian = (props: Props) => {
             ></span>
           </Box>
           <Box>additionalDescriptions: {props.food.additionalDescriptions}</Box>
-          <input
-            style={{
-              height: "16px",
-              width: "30px",
-              border: "1px solid lightgrey",
-              padding: "10px",
-            }}
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-          />
-          <Button
-            onClick={() =>
-              dispatch(
-                addCart({
-                  name: props.food.foodCategory,
-                  description: props.food.description,
-                  quantity: 1,
-                  foodNutrients: props.food.foodNutrients,
-                })
-              )
+
+          {props.food.foodMeasures.map((measure) => {
+            if (measure.disseminationText !== "Quantity not specified") {
+              return (
+                <Box sx={{ display: "flex", py: 1 }}>
+                  <Box sx={{ width: "200px" }}>{measure.disseminationText}</Box>
+                  <input
+                    style={{
+                      height: "16px",
+                      width: "30px",
+                      border: "1px solid lightgrey",
+                      padding: "10px",
+                    }}
+                    type="number"
+                    min="1"
+                    max="999"
+                    value={quantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  />
+                  <Button
+                    onClick={() =>
+                      dispatch(
+                        addCart({
+                          name: props.food.foodCategory,
+                          description: props.food.description,
+                          quantity: quantity,
+                          foodNutrients: props.food.foodNutrients,
+                          foodMeasures: props.food.foodMeasures,
+                        })
+                      )
+                    }
+                    sx={{ border: "1px solid lightgrey" }}
+                  >
+                    Add
+                  </Button>
+                </Box>
+              );
             }
-            sx={{ border: "1px solid lightgrey" }}
-          >
-            Select this
-          </Button>
+            return null;
+          })}
         </Box>
       )}
     </Box>

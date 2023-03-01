@@ -13,6 +13,7 @@ export interface Food {
     unitName: string;
     value: number;
   }>;
+  foodMeasures: Array<any>;
 }
 
 interface CartState {
@@ -34,10 +35,11 @@ export const FoodSlice = createSlice({
         description: string;
         quantity: number;
         foodNutrients: Array<any>;
+        foodMeasures: Array<any>;
       }>
     ) => {
       let objIndex = state.cart.findIndex(
-        (obj) => obj.name === action.payload.name
+        (obj) => obj.description === action.payload.description
       );
 
       if (objIndex > -1) {
@@ -47,6 +49,7 @@ export const FoodSlice = createSlice({
           description: action.payload.description,
           quantity: oldQuantity + action.payload.quantity,
           foodNutrients: action.payload.foodNutrients,
+          foodMeasures: action.payload.foodMeasures,
         });
       } else {
         state.cart.push({
@@ -54,6 +57,7 @@ export const FoodSlice = createSlice({
           description: action.payload.description,
           quantity: action.payload.quantity,
           foodNutrients: action.payload.foodNutrients,
+          foodMeasures: action.payload.foodMeasures,
         });
       }
     },
