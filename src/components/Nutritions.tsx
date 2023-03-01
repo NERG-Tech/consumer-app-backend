@@ -3,14 +3,13 @@ import axios from "axios";
 import { Button, Box, TextField } from "@mui/material";
 import Accordian from "./Accordian";
 import { useAppSelector } from "../store/store";
-import { resetCart } from "../store/features/foodSlice";
+import { resetCart, removeCart } from "../store/features/foodSlice";
 import { useAppDispatch } from "../store/store";
 
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
 
-  // Console Cart
   console.log("cart", cart);
 
   const [data, setData] = useState();
@@ -25,7 +24,7 @@ const Nutritions = () => {
 
   const getDataWithPageNumber = async (i: number) => {
     // Branded is removed
-    let added = `&pageSize=200&pageNumber=${i}&dataType=Foundation,Survey%20%28FNDDS%29`;
+    let added = `&pageSize=200&pageNumber=${i}&dataType=Foundation,Survey%20%28FNDDS%29&requireAllWords=Yes`;
     const options = {
       method: "GET",
       url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}`,
@@ -64,11 +63,10 @@ const Nutritions = () => {
   useEffect(() => {
     let pro = 0;
     cart.map((cart) => {
-      // console.log("foodNutrientId ", cart.foodNutrients[0].foodNutrientId);
-      pro += cart.foodNutrients[0].value * cart.quantity;
+      pro += cart.foodNutrients[0].value * cart.quantity * cart.gramPerWeight;
       setProteinUnit(cart.foodNutrients[0].unitName);
     });
-    console.log(pro);
+
     setProtein(pro);
   }, [cart]);
 
@@ -83,7 +81,12 @@ const Nutritions = () => {
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
             <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
-              <Box sx={{ pr: 2, fontWeight: "bold" }}> Search on usda.gov</Box>
+              <Box sx={{ pr: 2, fontWeight: "bold" }}>
+                {" "}
+                Search on usda.gov
+                <br />
+                (Required All)
+              </Box>
               <TextField
                 placeholder="Ingredients"
                 onChange={(e) => setIngredient(e.target.value)}
@@ -109,7 +112,6 @@ const Nutritions = () => {
           <Box
             sx={{ minWidth: "300px", backgroundColor: "#F0F8FF", p: 4, ml: 1 }}
           >
-            {/* <Box onClick={() => dispatch(resetCart({}))}>Reset All</Box> */}
             <Button
               onClick={() => dispatch(resetCart({}))}
               sx={{ border: "1px solid lightgray", backgroundColor: "white" }}
@@ -119,6 +121,7 @@ const Nutritions = () => {
             <Box sx={{ mt: 2, fontWeight: "bold" }}>Selected Items:</Box>
             <Box>
               {cart.map((cart, index) => {
+                console.log("===> cart ", cart);
                 return (
                   <Box
                     key={index}
@@ -127,25 +130,50 @@ const Nutritions = () => {
                       m: 2,
                       p: 2,
                       backgroundColor: "white",
+                      fontSize: "14px",
                     }}
                   >
-                    <Box>
-                      Name:{" "}
+                    <Box sx={{ fontSize: "14px" }}>
                       <span style={{ fontWeight: "bold", color: "#778899" }}>
-                        {cart.name}
+                        {cart.description}
+                        <div style={{ color: "#2F4F4F", paddingTop: "3px" }}>
+                          {cart.disseminationText}
+                        </div>
                       </span>
                     </Box>
-                    <Box sx={{ pt: 1 }}>Desc: {cart.description}</Box>
+                    <Box sx={{ pt: 1 }}>Name: {cart.name}</Box>
                     <Box>Qty: {cart.quantity}</Box>
                     <Box sx={{ pt: 1 }}>
                       Protein: {cart.foodNutrients[0].value}
                     </Box>
                     <Box>
-                      Protein * Quantity = {cart.foodNutrients[0].value} *{" "}
-                      {cart.quantity} ={" "}
-                      {(cart.foodNutrients[0].value * cart.quantity).toFixed(2)}{" "}
+                      Protein * Quantity * gramWeight ={" "}
+                      {cart.foodNutrients[0].value} * {cart.quantity} *{" "}
+                      {cart.gramPerWeight} ={" "}
+                      {(
+                        cart.foodNutrients[0].value *
+                        cart.quantity *
+                        cart.gramPerWeight
+                      ).toFixed(2)}{" "}
                       {cart.foodNutrients[0].unitName}
                     </Box>
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          removeCart({
+                            description: cart.description,
+                            disseminationText: cart.disseminationText,
+                          })
+                        )
+                      }
+                      style={{
+                        border: "1px solid lightgrey",
+                        padding: "2px",
+                        marginTop: "5px",
+                      }}
+                    >
+                      Remove From Cart
+                    </button>
                   </Box>
                 );
               })}

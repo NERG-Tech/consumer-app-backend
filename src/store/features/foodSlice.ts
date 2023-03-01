@@ -10,7 +10,8 @@ export interface Food {
     unitName: string;
     value: number;
   }>;
-  foodMeasures: Array<any>;
+  disseminationText: string;
+  gramPerWeight: number;
 }
 
 interface CartState {
@@ -29,10 +30,13 @@ export const FoodSlice = createSlice({
       state,
       action: PayloadAction<{
         description: string;
+        disseminationText: string;
       }>
     ) => {
       state.cart = state.cart.filter(
-        (item) => item.description !== action.payload.description
+        (item) =>
+          item.description !== action.payload.description ||
+          item.disseminationText !== action.payload.disseminationText
       );
     },
     addCart: (
@@ -42,11 +46,14 @@ export const FoodSlice = createSlice({
         description: string;
         quantity: number;
         foodNutrients: Array<any>;
-        foodMeasures: Array<any>;
+        disseminationText: string;
+        gramPerWeight: number;
       }>
     ) => {
       let objIndex = state.cart.findIndex(
-        (obj) => obj.description === action.payload.description
+        (obj) =>
+          obj.description === action.payload.description &&
+          obj.disseminationText === action.payload.disseminationText
       );
 
       if (objIndex > -1) {
@@ -56,7 +63,8 @@ export const FoodSlice = createSlice({
           description: action.payload.description,
           quantity: oldQuantity + action.payload.quantity,
           foodNutrients: action.payload.foodNutrients,
-          foodMeasures: action.payload.foodMeasures,
+          disseminationText: action.payload.disseminationText,
+          gramPerWeight: action.payload.gramPerWeight,
         });
       } else {
         state.cart.push({
@@ -64,9 +72,11 @@ export const FoodSlice = createSlice({
           description: action.payload.description,
           quantity: action.payload.quantity,
           foodNutrients: action.payload.foodNutrients,
-          foodMeasures: action.payload.foodMeasures,
+          disseminationText: action.payload.disseminationText,
+          gramPerWeight: action.payload.gramPerWeight,
         });
       }
+      console.log("state.cart", state.cart);
     },
     resetCart: (state, action) => {
       state.cart = [];

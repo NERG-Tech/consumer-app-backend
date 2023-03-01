@@ -12,9 +12,6 @@ const Layout = () => {
         <Link to="/nutritions">
           <Button sx={{ ml: 2 }}>Nutritions</Button>
         </Link>
-        <Link to="/nutritions-all">
-          <Button sx={{ ml: 2 }}>Nutritions All Words</Button>
-        </Link>
       </Box>
       <Box
         sx={{

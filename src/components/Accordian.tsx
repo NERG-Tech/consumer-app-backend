@@ -44,9 +44,18 @@ const Accordian = (props: Props) => {
           </Box>
           <Box>additionalDescriptions: {props.food.additionalDescriptions}</Box>
 
-          {props.food.foodMeasures.map((measure) => {
+          {props.food.foodMeasures.map((measure, index) => {
             if (measure.disseminationText !== "Quantity not specified") {
-              return <AccordianAddButton measure={measure} food={props.food} />;
+              let gramPerWeight = measure.gramWeight / 100;
+              return (
+                <AccordianAddButton
+                  key={index}
+                  measure={measure}
+                  food={props.food}
+                  disseminationText={measure.disseminationText}
+                  gramPerWeight={gramPerWeight}
+                />
+              );
             }
             return null;
           })}
