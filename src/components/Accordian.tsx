@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Box } from "@mui/system";
-import { Button } from "@mui/material";
-import { addCart } from "../store/features/foodSlice";
-import { useAppDispatch } from "../store/store";
+
+import AccordianAddButton from "./AccordianAddButton";
 
 export interface Props {
   index: number;
@@ -18,11 +17,7 @@ export interface Props {
 }
 
 const Accordian = (props: Props) => {
-  const dispatch = useAppDispatch();
-
   const [show, setShow] = useState(false);
-  const [quantity, setQuantity] = useState<number>(1);
-
   return (
     <Box sx={{ cursor: "pointer" }}>
       <Box
@@ -51,40 +46,7 @@ const Accordian = (props: Props) => {
 
           {props.food.foodMeasures.map((measure) => {
             if (measure.disseminationText !== "Quantity not specified") {
-              return (
-                <Box sx={{ display: "flex", py: 1 }}>
-                  <Box sx={{ width: "200px" }}>{measure.disseminationText}</Box>
-                  <input
-                    style={{
-                      height: "16px",
-                      width: "30px",
-                      border: "1px solid lightgrey",
-                      padding: "10px",
-                    }}
-                    type="number"
-                    min="1"
-                    max="999"
-                    value={quantity}
-                    onChange={(e) => setQuantity(parseInt(e.target.value))}
-                  />
-                  <Button
-                    onClick={() =>
-                      dispatch(
-                        addCart({
-                          name: props.food.foodCategory,
-                          description: props.food.description,
-                          quantity: quantity,
-                          foodNutrients: props.food.foodNutrients,
-                          foodMeasures: props.food.foodMeasures,
-                        })
-                      )
-                    }
-                    sx={{ border: "1px solid lightgrey" }}
-                  >
-                    Add
-                  </Button>
-                </Box>
-              );
+              return <AccordianAddButton measure={measure} food={props.food} />;
             }
             return null;
           })}
