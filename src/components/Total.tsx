@@ -21,13 +21,17 @@ const Total = () => {
   const [fiber, setFiber] = useState<number>(0);
   const [fiberUnit, setFiberUnit] = useState<string>();
 
+  const [vitaminA, setVitaminA] = useState<number>(0);
+  const [vitaminAUnit, setVitaminAUnit] = useState<string>();
+
   // Calculate total values each time cart is changed
   useEffect(() => {
     let protein = 0,
       water = 0,
       totalLipidFat = 0,
       carbohydrate = 0,
-      fiber = 0;
+      fiber = 0,
+      vitaminA = 0;
 
     cart.forEach((cart) => {
       // Protein
@@ -67,6 +71,13 @@ const Total = () => {
         cart.quantity *
         cart.gramPerWeight;
       setFiberUnit(cart.foodNutrients[Cart.indexes["Fiber"]].unitName);
+
+      // vitaminA
+      vitaminA +=
+        cart.foodNutrients[Cart.indexes["VitaminA"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setVitaminAUnit(cart.foodNutrients[Cart.indexes["VitaminA"]].unitName);
     });
 
     setProtein(protein);
@@ -74,6 +85,7 @@ const Total = () => {
     setWater(water);
     setCarbohydrate(carbohydrate);
     setFiber(fiber);
+    setVitaminA(vitaminA);
   }, [cart]);
 
   return (
@@ -93,7 +105,7 @@ const Total = () => {
           Protein: {protein.toFixed(2)} {proteinUnit}
         </Box>
         <Box>
-          Total Lipid Fat: {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
+          Total Lipid (Fat): {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
         </Box>
         <Box>
           Carbohydrate: {carbohydrate.toFixed(2)} {carbohydrateUnit}
@@ -103,6 +115,9 @@ const Total = () => {
         </Box>
         <Box>
           Fiber: {fiber.toFixed(2)} {fiberUnit}
+        </Box>
+        <Box>
+          Vitamin A: {vitaminA.toFixed(2)} {vitaminAUnit}
         </Box>
       </Box>
     </div>
