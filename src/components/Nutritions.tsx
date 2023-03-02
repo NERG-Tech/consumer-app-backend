@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { resetCart } from "../store/features/foodSlice";
+
+import axios from "axios";
+
 import Accordian from "./Accordian";
-import { useAppSelector } from "../store/store";
-import { resetCart, removeCart } from "../store/features/foodSlice";
-import { useAppDispatch } from "../store/store";
+import Cart from "./Cart";
+import Total from "./Total";
 
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
-
-  console.log("cart", cart);
 
   const [data, setData] = useState();
   const [foods, setFoods] = useState<
@@ -18,7 +19,6 @@ const Nutritions = () => {
       description: string;
     }>
   >([]);
-
   const [ingredient, setIngredient] = useState<string>();
   const [loading, setLoading] = useState(false);
 
@@ -57,32 +57,15 @@ const Nutritions = () => {
   console.log("data", data);
   console.log("foods", foods);
 
-  const [protein, setProtein] = useState<number>(0);
-  const [proteinUnit, setProteinUnit] = useState<string>();
-
-  useEffect(() => {
-    let pro = 0;
-    cart.map((cart) => {
-      pro += cart.foodNutrients[0].value * cart.quantity * cart.gramPerWeight;
-      setProteinUnit(cart.foodNutrients[0].unitName);
-    });
-
-    setProtein(pro);
-  }, [cart]);
-
   return (
     <Box>
       {loading ? (
-        <Box>
-          Loading...
-          <Box>...{foods.length} results are loaded</Box>
-        </Box>
+        <Box sx={{ fontSize: "32px" }}>Loading...Please wait</Box>
       ) : (
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
             <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
               <Box sx={{ pr: 2, fontWeight: "bold" }}>
-                {" "}
                 Search on usda.gov
                 <br />
                 (Required All)
@@ -90,6 +73,7 @@ const Nutritions = () => {
               <TextField
                 placeholder="Ingredients"
                 onChange={(e) => setIngredient(e.target.value)}
+                value={ingredient || ""}
               />
               <Button
                 variant="contained"
@@ -122,68 +106,10 @@ const Nutritions = () => {
             <Box>
               {cart.map((cart, index) => {
                 console.log("===> cart ", cart);
-                return (
-                  <Box
-                    key={index}
-                    sx={{
-                      border: "1px solid lightgray",
-                      m: 2,
-                      p: 2,
-                      backgroundColor: "white",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <Box sx={{ fontSize: "14px" }}>
-                      <span style={{ fontWeight: "bold", color: "#778899" }}>
-                        {cart.description}
-                        <div style={{ color: "#2F4F4F", paddingTop: "3px" }}>
-                          {cart.disseminationText}
-                        </div>
-                      </span>
-                    </Box>
-                    <Box sx={{ pt: 1 }}>Name: {cart.name}</Box>
-                    <Box>Qty: {cart.quantity}</Box>
-                    <Box sx={{ pt: 1 }}>
-                      Protein: {cart.foodNutrients[0].value}
-                    </Box>
-                    <Box>
-                      Protein * Quantity * gramWeight ={" "}
-                      {cart.foodNutrients[0].value} * {cart.quantity} *{" "}
-                      {cart.gramPerWeight} ={" "}
-                      {(
-                        cart.foodNutrients[0].value *
-                        cart.quantity *
-                        cart.gramPerWeight
-                      ).toFixed(2)}{" "}
-                      {cart.foodNutrients[0].unitName}
-                    </Box>
-                    <button
-                      onClick={() =>
-                        dispatch(
-                          removeCart({
-                            description: cart.description,
-                            disseminationText: cart.disseminationText,
-                          })
-                        )
-                      }
-                      style={{
-                        border: "1px solid lightgrey",
-                        padding: "2px",
-                        marginTop: "5px",
-                      }}
-                    >
-                      Remove From Cart
-                    </button>
-                  </Box>
-                );
+                return <Cart cart={cart} index={index} key={index} />;
               })}
             </Box>
-            <Box>
-              <span style={{ fontWeight: "bold" }}>Result</span>:{" "}
-              <Box sx={{ pt: 2 }}>
-                Total Protein {protein.toFixed(2)} {proteinUnit}
-              </Box>
-            </Box>
+            {cart.length > 0 && <Total />}
           </Box>
         </Box>
       )}
