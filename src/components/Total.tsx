@@ -12,14 +12,23 @@ const Total = () => {
   const [totalLipidFat, setTotalLipidFat] = useState<number>(0);
   const [totalLipidFatUnit, setTotalLipidFatUnit] = useState("");
 
+  const [carbohydrate, setCarbohydrate] = useState<number>(0);
+  const [carbohydrateUnit, setCarbohydrateUnit] = useState("");
+
   const [water, setWater] = useState<number>(0);
   const [waterUnit, setWaterUnit] = useState<string>();
+
+  const [fiber, setFiber] = useState<number>(0);
+  const [fiberUnit, setFiberUnit] = useState<string>();
 
   // Calculate total values each time cart is changed
   useEffect(() => {
     let protein = 0,
       water = 0,
-      totalLipidFat = 0;
+      totalLipidFat = 0,
+      carbohydrate = 0,
+      fiber = 0;
+
     cart.forEach((cart) => {
       // Protein
       protein +=
@@ -42,11 +51,29 @@ const Total = () => {
         cart.quantity *
         cart.gramPerWeight;
       setWaterUnit(cart.foodNutrients[Cart.indexes["Water"]].unitName);
+
+      // carbohydrate
+      carbohydrate +=
+        cart.foodNutrients[Cart.indexes["Carbohydrate"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setCarbohydrateUnit(
+        cart.foodNutrients[Cart.indexes["Carbohydrate"]].unitName
+      );
+
+      // fiber
+      fiber +=
+        cart.foodNutrients[Cart.indexes["Fiber"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setFiberUnit(cart.foodNutrients[Cart.indexes["Fiber"]].unitName);
     });
 
     setProtein(protein);
     setTotalLipidFat(totalLipidFat);
     setWater(water);
+    setCarbohydrate(carbohydrate);
+    setFiber(fiber);
   }, [cart]);
 
   return (
@@ -66,10 +93,16 @@ const Total = () => {
           Protein: {protein.toFixed(2)} {proteinUnit}
         </Box>
         <Box>
-          Total: {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
+          Total Lipid Fat: {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
+        </Box>
+        <Box>
+          Carbohydrate: {carbohydrate.toFixed(2)} {carbohydrateUnit}
         </Box>
         <Box>
           Water: {water.toFixed(2)} {waterUnit}
+        </Box>
+        <Box>
+          Fiber: {fiber.toFixed(2)} {fiberUnit}
         </Box>
       </Box>
     </div>
