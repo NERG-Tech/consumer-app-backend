@@ -96,23 +96,6 @@ const Cart = (props: Props) => {
           </Box>
         </Box> */}
 
-        {/* <Box>
-          <Box sx={{ pt: 1 }}>
-            Water: {props.cart.foodNutrients[indexes["Water"]].value}
-          </Box>
-          <Box>
-            Water * Quantity * gramWeight ={" "}
-            {props.cart.foodNutrients[indexes["Water"]].value} *{" "}
-            {props.cart.quantity} * {props.cart.gramPerWeight} ={" "}
-            {(
-              props.cart.foodNutrients[indexes["Water"]].value *
-              props.cart.quantity *
-              props.cart.gramPerWeight
-            ).toFixed(2)}{" "}
-            {props.cart.foodNutrients[indexes["Water"]].unitName}
-          </Box>
-        </Box> */}
-
         <button
           onClick={() => {
             setLoading(true);

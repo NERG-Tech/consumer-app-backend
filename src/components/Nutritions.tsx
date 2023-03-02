@@ -9,6 +9,21 @@ import Accordian from "./Accordian";
 import Cart from "./Cart";
 import Total from "./Total";
 
+// export interface Food {
+//   description: string;
+//   unitName: string;
+//   value: number;
+//   nutrientName: string;
+//   foodNutrientId: number;
+//   foodMeasures: Array<{
+//     gramWeight: number;
+//     disseminationText: string;
+//   }>;
+// }
+// interface FoodsType {
+//   [key: number]: Food[];
+// }
+
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
@@ -17,6 +32,14 @@ const Nutritions = () => {
   const [foods, setFoods] = useState<
     Array<{
       description: string;
+      unitName: string;
+      value: number;
+      nutrientName: string;
+      foodNutrientId: number;
+      foodMeasures: Array<{
+        gramWeight: number;
+        disseminationText: string;
+      }>;
     }>
   >([]);
   const [ingredient, setIngredient] = useState<string>();
@@ -37,7 +60,7 @@ const Nutritions = () => {
     });
   };
 
-  const getNut = async () => {
+  const getAllNutritions = async () => {
     setLoading(true);
     setFoods([]);
 
@@ -51,7 +74,17 @@ const Nutritions = () => {
     } catch (error) {
       setLoading(false);
     }
+    removeFoodWithNoMeasure();
     setLoading(false);
+  };
+
+  const removeFoodWithNoMeasure = () => {
+    const result = foods.filter((food) => {
+      if (food.foodMeasures.length > 0) {
+        return food;
+      }
+    });
+    console.log("result", result);
   };
 
   console.log("data", data);
@@ -77,7 +110,7 @@ const Nutritions = () => {
               />
               <Button
                 variant="contained"
-                onClick={getNut}
+                onClick={getAllNutritions}
                 sx={{ height: "55px" }}
               >
                 click
