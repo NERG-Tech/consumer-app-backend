@@ -9,13 +9,40 @@ const Total = () => {
   const [protein, setProtein] = useState<number>(0);
   const [proteinUnit, setProteinUnit] = useState("");
 
+  const [totalLipidFat, setTotalLipidFat] = useState<number>(0);
+  const [totalLipidFatUnit, setTotalLipidFatUnit] = useState("");
+
+  const [carbohydrate, setCarbohydrate] = useState<number>(0);
+  const [carbohydrateUnit, setCarbohydrateUnit] = useState("");
+
   const [water, setWater] = useState<number>(0);
   const [waterUnit, setWaterUnit] = useState<string>();
+
+  const [fiber, setFiber] = useState<number>(0);
+  const [fiberUnit, setFiberUnit] = useState<string>();
+
+  const [vitaminA, setVitaminA] = useState<number>(0);
+  const [vitaminAUnit, setVitaminAUnit] = useState<string>();
+
+  const [thiamin, setThiamin] = useState<number>(0);
+  const [thiaminUnit, setThiaminUnit] = useState<string>();
+
+  const [riboflavin, setRiboflavin] = useState<number>(0);
+  const [riboflavinUnit, setRiboflavinUnit] = useState<string>();
+
+  //Riboflavin
 
   // Calculate total values each time cart is changed
   useEffect(() => {
     let protein = 0,
-      water = 0;
+      water = 0,
+      totalLipidFat = 0,
+      carbohydrate = 0,
+      fiber = 0,
+      vitaminA = 0,
+      thiamin = 0,
+      riboflavin = 0;
+
     cart.forEach((cart) => {
       // Protein
       protein +=
@@ -24,15 +51,69 @@ const Total = () => {
         cart.gramPerWeight;
       setProteinUnit(cart.foodNutrients[Cart.indexes["Protein"]].unitName);
 
+      // totalLipidFat
+      totalLipidFat +=
+        cart.foodNutrients[Cart.indexes["TotalLipidFat"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setTotalLipidFatUnit(
+        cart.foodNutrients[Cart.indexes["TotalLipidFat"]].unitName
+      );
       // Water
       water +=
         cart.foodNutrients[Cart.indexes["Water"]].value *
         cart.quantity *
         cart.gramPerWeight;
       setWaterUnit(cart.foodNutrients[Cart.indexes["Water"]].unitName);
+
+      // carbohydrate
+      carbohydrate +=
+        cart.foodNutrients[Cart.indexes["Carbohydrate"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setCarbohydrateUnit(
+        cart.foodNutrients[Cart.indexes["Carbohydrate"]].unitName
+      );
+
+      // fiber
+      fiber +=
+        cart.foodNutrients[Cart.indexes["Fiber"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setFiberUnit(cart.foodNutrients[Cart.indexes["Fiber"]].unitName);
+
+      // vitaminA
+      vitaminA +=
+        cart.foodNutrients[Cart.indexes["VitaminA"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setVitaminAUnit(cart.foodNutrients[Cart.indexes["VitaminA"]].unitName);
+
+      // thiamin
+      thiamin +=
+        cart.foodNutrients[Cart.indexes["Thiamin"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setThiaminUnit(cart.foodNutrients[Cart.indexes["Thiamin"]].unitName);
+
+      // riboflavin
+      riboflavin +=
+        cart.foodNutrients[Cart.indexes["Riboflavin"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setRiboflavinUnit(
+        cart.foodNutrients[Cart.indexes["Riboflavin"]].unitName
+      );
     });
+
     setProtein(protein);
+    setTotalLipidFat(totalLipidFat);
     setWater(water);
+    setCarbohydrate(carbohydrate);
+    setFiber(fiber);
+    setVitaminA(vitaminA);
+    setThiamin(thiamin);
+    setRiboflavin(riboflavin);
   }, [cart]);
 
   return (
@@ -52,7 +133,25 @@ const Total = () => {
           Protein: {protein.toFixed(2)} {proteinUnit}
         </Box>
         <Box>
+          Total Lipid (Fat): {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
+        </Box>
+        <Box>
+          Carbohydrate: {carbohydrate.toFixed(2)} {carbohydrateUnit}
+        </Box>
+        <Box>
           Water: {water.toFixed(2)} {waterUnit}
+        </Box>
+        <Box>
+          Fiber: {fiber.toFixed(2)} {fiberUnit}
+        </Box>
+        <Box>
+          Vitamin A: {vitaminA.toFixed(2)} {vitaminAUnit}
+        </Box>
+        <Box>
+          Thiamin (B1): {thiamin.toFixed(2)} {thiaminUnit}
+        </Box>
+        <Box>
+          Riboflavin: {riboflavin.toFixed(2)} {riboflavinUnit}
         </Box>
       </Box>
     </div>
