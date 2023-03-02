@@ -13,6 +13,8 @@ export const indexes: ObjectType = {
   Water: 5,
   Fiber: 9,
   VitaminA: 20,
+  Thiamin: 29,
+  Riboflavin: 30,
 };
 
 type Props = {

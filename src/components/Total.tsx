@@ -24,6 +24,14 @@ const Total = () => {
   const [vitaminA, setVitaminA] = useState<number>(0);
   const [vitaminAUnit, setVitaminAUnit] = useState<string>();
 
+  const [thiamin, setThiamin] = useState<number>(0);
+  const [thiaminUnit, setThiaminUnit] = useState<string>();
+
+  const [riboflavin, setRiboflavin] = useState<number>(0);
+  const [riboflavinUnit, setRiboflavinUnit] = useState<string>();
+
+  //Riboflavin
+
   // Calculate total values each time cart is changed
   useEffect(() => {
     let protein = 0,
@@ -31,7 +39,9 @@ const Total = () => {
       totalLipidFat = 0,
       carbohydrate = 0,
       fiber = 0,
-      vitaminA = 0;
+      vitaminA = 0,
+      thiamin = 0,
+      riboflavin = 0;
 
     cart.forEach((cart) => {
       // Protein
@@ -78,6 +88,22 @@ const Total = () => {
         cart.quantity *
         cart.gramPerWeight;
       setVitaminAUnit(cart.foodNutrients[Cart.indexes["VitaminA"]].unitName);
+
+      // thiamin
+      thiamin +=
+        cart.foodNutrients[Cart.indexes["Thiamin"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setThiaminUnit(cart.foodNutrients[Cart.indexes["Thiamin"]].unitName);
+
+      // riboflavin
+      riboflavin +=
+        cart.foodNutrients[Cart.indexes["Riboflavin"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setRiboflavinUnit(
+        cart.foodNutrients[Cart.indexes["Riboflavin"]].unitName
+      );
     });
 
     setProtein(protein);
@@ -86,6 +112,8 @@ const Total = () => {
     setCarbohydrate(carbohydrate);
     setFiber(fiber);
     setVitaminA(vitaminA);
+    setThiamin(thiamin);
+    setRiboflavin(riboflavin);
   }, [cart]);
 
   return (
@@ -118,6 +146,12 @@ const Total = () => {
         </Box>
         <Box>
           Vitamin A: {vitaminA.toFixed(2)} {vitaminAUnit}
+        </Box>
+        <Box>
+          Thiamin (B1): {thiamin.toFixed(2)} {thiaminUnit}
+        </Box>
+        <Box>
+          Riboflavin: {riboflavin.toFixed(2)} {riboflavinUnit}
         </Box>
       </Box>
     </div>
