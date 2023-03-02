@@ -16,14 +16,10 @@ export interface Food {
 
 interface CartState {
   cart: Food[];
-  protein: number;
-  water: number;
 }
 
 const initialState: CartState = {
   cart: [],
-  protein: 0,
-  water: 0,
 };
 
 export const FoodSlice = createSlice({

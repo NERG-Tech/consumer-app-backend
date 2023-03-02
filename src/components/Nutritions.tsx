@@ -7,12 +7,12 @@ import axios from "axios";
 
 import Accordian from "./Accordian";
 import Cart from "./Cart";
+import Total from "./Total";
 
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
 
-  const [err, setErr] = useState("");
   const [data, setData] = useState();
   const [foods, setFoods] = useState<
     Array<{
@@ -109,6 +109,7 @@ const Nutritions = () => {
                 return <Cart cart={cart} index={index} key={index} />;
               })}
             </Box>
+            {cart.length > 0 && <Total />}
           </Box>
         </Box>
       )}
