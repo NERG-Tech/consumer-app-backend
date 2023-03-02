@@ -30,6 +30,12 @@ const Total = () => {
   const [riboflavin, setRiboflavin] = useState<number>(0);
   const [riboflavinUnit, setRiboflavinUnit] = useState<string>();
 
+  const [niacin, setNiacin] = useState<number>(0);
+  const [niacinUnit, setNiacinUnit] = useState<string>();
+
+  const [vitaminB6, setVitaminB6] = useState<number>(0);
+  const [vitaminB6Unit, setVitaminB6Unit] = useState<string>();
+
   //Riboflavin
 
   // Calculate total values each time cart is changed
@@ -41,7 +47,9 @@ const Total = () => {
       fiber = 0,
       vitaminA = 0,
       thiamin = 0,
-      riboflavin = 0;
+      riboflavin = 0,
+      niacin = 0,
+      vitaminB6 = 0;
 
     cart.forEach((cart) => {
       // Protein
@@ -104,6 +112,20 @@ const Total = () => {
       setRiboflavinUnit(
         cart.foodNutrients[Cart.indexes["Riboflavin"]].unitName
       );
+
+      // niacin
+      niacin +=
+        cart.foodNutrients[Cart.indexes["Niacin"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setNiacinUnit(cart.foodNutrients[Cart.indexes["Niacin"]].unitName);
+
+      // vitaminB6
+      vitaminB6 +=
+        cart.foodNutrients[Cart.indexes["VitaminB6"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setVitaminB6Unit(cart.foodNutrients[Cart.indexes["Niacin"]].unitName);
     });
 
     setProtein(protein);
@@ -114,6 +136,8 @@ const Total = () => {
     setVitaminA(vitaminA);
     setThiamin(thiamin);
     setRiboflavin(riboflavin);
+    setNiacin(niacin);
+    setVitaminB6(vitaminB6);
   }, [cart]);
 
   return (
@@ -151,7 +175,13 @@ const Total = () => {
           Thiamin (B1): {thiamin.toFixed(2)} {thiaminUnit}
         </Box>
         <Box>
-          Riboflavin: {riboflavin.toFixed(2)} {riboflavinUnit}
+          Riboflavin (B2): {riboflavin.toFixed(2)} {riboflavinUnit}
+        </Box>
+        <Box>
+          Niacin (B3): {niacin.toFixed(2)} {niacinUnit}
+        </Box>
+        <Box>
+          Vitamin B6: {vitaminB6.toFixed(2)} {vitaminB6Unit}
         </Box>
       </Box>
     </div>

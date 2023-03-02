@@ -15,6 +15,8 @@ export const indexes: ObjectType = {
   VitaminA: 20,
   Thiamin: 29,
   Riboflavin: 30,
+  Niacin: 31,
+  VitaminB6: 32,
 };
 
 type Props = {
