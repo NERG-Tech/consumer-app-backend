@@ -9,13 +9,17 @@ const Total = () => {
   const [protein, setProtein] = useState<number>(0);
   const [proteinUnit, setProteinUnit] = useState("");
 
+  const [totalLipidFat, setTotalLipidFat] = useState<number>(0);
+  const [totalLipidFatUnit, setTotalLipidFatUnit] = useState("");
+
   const [water, setWater] = useState<number>(0);
   const [waterUnit, setWaterUnit] = useState<string>();
 
   // Calculate total values each time cart is changed
   useEffect(() => {
     let protein = 0,
-      water = 0;
+      water = 0,
+      totalLipidFat = 0;
     cart.forEach((cart) => {
       // Protein
       protein +=
@@ -24,6 +28,14 @@ const Total = () => {
         cart.gramPerWeight;
       setProteinUnit(cart.foodNutrients[Cart.indexes["Protein"]].unitName);
 
+      // totalLipidFat
+      totalLipidFat +=
+        cart.foodNutrients[Cart.indexes["TotalLipidFat"]].value *
+        cart.quantity *
+        cart.gramPerWeight;
+      setTotalLipidFatUnit(
+        cart.foodNutrients[Cart.indexes["TotalLipidFat"]].unitName
+      );
       // Water
       water +=
         cart.foodNutrients[Cart.indexes["Water"]].value *
@@ -31,7 +43,9 @@ const Total = () => {
         cart.gramPerWeight;
       setWaterUnit(cart.foodNutrients[Cart.indexes["Water"]].unitName);
     });
+
     setProtein(protein);
+    setTotalLipidFat(totalLipidFat);
     setWater(water);
   }, [cart]);
 
@@ -50,6 +64,9 @@ const Total = () => {
         <Box sx={{ fontWeight: "bold" }}>Total Values:</Box>
         <Box>
           Protein: {protein.toFixed(2)} {proteinUnit}
+        </Box>
+        <Box>
+          Total: {totalLipidFat.toFixed(2)} {totalLipidFatUnit}
         </Box>
         <Box>
           Water: {water.toFixed(2)} {waterUnit}
