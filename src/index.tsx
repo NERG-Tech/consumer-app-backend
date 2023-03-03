@@ -9,6 +9,7 @@ import { store } from "./store/store";
 
 import Layout from "./components/common/Layout";
 import Nutritions from "./components/Nutritions";
+import NutiritionsTest from "./components/NutiritionsTest";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -19,6 +20,7 @@ root.render(
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/nutritions" element={<Nutritions />} />
+          <Route path="/nutirition-test" element={<NutiritionsTest />} />
           <Route path="/app" element={<App />} />
         </Route>
       </Routes>

@@ -19,7 +19,7 @@ export interface Props {
 const Accordian = (props: Props) => {
   const [show, setShow] = useState(false);
   return (
-    <Box sx={{ cursor: "pointer" }}>
+    <Box sx={{ cursor: "pointer", fontSize: "13px" }}>
       <Box
         sx={{
           textDecoration: "underline",
@@ -34,14 +34,14 @@ const Accordian = (props: Props) => {
         <Box sx={{ pl: 3 }}>
           <Box>dataType: {props.food.dataType}</Box>
           <Box>foodCategory: {props.food.foodCategory}</Box>
-          <Box>
+          {/* <Box>
             allHighlightFields:{" "}
             <span
               dangerouslySetInnerHTML={{
                 __html: props.food.allHighlightFields,
               }}
             ></span>
-          </Box>
+          </Box> */}
           <Box>additionalDescriptions: {props.food.additionalDescriptions}</Box>
 
           {props.food.foodMeasures.map((measure, index) => {

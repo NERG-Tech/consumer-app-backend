@@ -15,6 +15,24 @@ export const indexes: ObjectType = {
   VitaminA: 20,
   Thiamin: 29,
   Riboflavin: 30,
+  Niacin: 31,
+  VitaminB6: 32,
+  VitaminB12: 34,
+  VitaminC: 28,
+  VitaminD: 24,
+  Folate: 33,
+  VitaminE: 23,
+  VitaminK: 36,
+  Cholesterol: 42,
+  Choline: 35,
+  Calcium: 10,
+  Caffeine: 6,
+  Energy: 3,
+  Theobromine: 7,
+  Sugar: 8,
+  Iron: 11,
+  Sodium: 15,
+  Retinol: 19,
 };
 
 type Props = {
@@ -38,7 +56,7 @@ const Cart = (props: Props) => {
     // console.log(ingredient);
     let index = indexes[ingredient as keyof ObjectType];
     html +=
-      "<br /><Box><Box sx={{ pt: 1 }}>" +
+      "<br /><Box> " +
       ingredient +
       ": " +
       props.cart.foodNutrients[index].value +
