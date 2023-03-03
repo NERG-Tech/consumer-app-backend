@@ -410,9 +410,7 @@ const Total = () => {
         <Box>
           Caffein: {caffeine.toFixed(2)} {caffeineUnit}
         </Box>
-        <Box>
-          Energy: {energy.toFixed(2)} {energyUnit}
-        </Box>
+
         <Box>
           Theobromine: {theobromine.toFixed(2)} {theobromineUnit}
         </Box>
@@ -427,6 +425,15 @@ const Total = () => {
         </Box>
         <Box>
           Retinol: {retinol.toFixed(2)} {retinolUnit}
+        </Box>
+        <Box
+          sx={{
+            color: "#4682B4",
+            fontWeight: "bold",
+            textDecoration: "underline",
+          }}
+        >
+          Energy: {energy.toFixed(2)} {energyUnit}
         </Box>
       </Box>
     </div>

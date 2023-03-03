@@ -27,12 +27,12 @@ export const indexes: ObjectType = {
   Choline: 35,
   Calcium: 10,
   Caffeine: 6,
-  Energy: 3,
   Theobromine: 7,
   Sugar: 8,
   Iron: 11,
   Sodium: 15,
   Retinol: 19,
+  Energy: 3,
 };
 
 type Props = {
