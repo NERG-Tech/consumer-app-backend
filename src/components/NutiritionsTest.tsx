@@ -35,7 +35,7 @@ const Nutritions = () => {
     // types: Branded,SR%20Legacy,Foundation,Survey%20%28FNDDS%29
     let legacy = ",SR%20Legacy";
     let extra = "&dataType=Foundation,Survey%20%28FNDDS%29";
-    let added = `&pageSize=200&pageNumber=${i}&requireAllWords=No`;
+    let added = `&pageSize=200&pageNumber=${i}&requireAllWords=Yes`;
     const options = {
       method: "GET",
       url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${extra}`,
@@ -49,18 +49,18 @@ const Nutritions = () => {
   };
   const getDataWithPageNumber2 = async () => {
     // types: Branded,SR%20Legacy,Foundation,Survey%20%28FNDDS%29
-
+    let word = "Banana";
     let legacy = "&dataType=SR%20Legacy";
-    // let extra = "&dataType=Foundation,Survey%20%28FNDDS%29" + legacy;
-    let added = `&pageSize=200&requireAllWords=No`;
+    let extra = "&dataType=Foundation,Survey%20%28FNDDS%29" + legacy;
+    let added = `&pageSize=200&requireAllWords=Yes`;
     const options = {
       method: "GET",
-      url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${legacy}`,
+      url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${word}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${legacy}`,
     };
     await axios.request(options).then((response) => {
       setData(response.data);
       //   setFoods((foods) => foods.concat(response.data.foods));
-      console.log("Version 2) legacy, ", response.data.foods);
+      console.log("legacy, ", response.data.foods);
 
       //   return response.data.totalPages;
     });
@@ -85,8 +85,8 @@ const Nutritions = () => {
     setLoading(false);
   };
 
-  console.log("Total data) ", data);
-  console.log("Version 1) ", foods);
+  console.log("data", data);
+  console.log("foods", foods);
 
   //   useEffect(() => {
   //     testLegacy();

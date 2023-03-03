@@ -27,7 +27,9 @@ const AccordianAddButton = (props: Props) => {
   return (
     <div>
       <Box sx={{ display: "flex", py: 1 }}>
-        <Box sx={{ width: "200px" }}>{props.measure.disseminationText}</Box>
+        <Box sx={{ width: "300px", fontSize: "13px" }}>
+          {props.measure.disseminationText}
+        </Box>
         <input
           style={{
             height: "16px",
