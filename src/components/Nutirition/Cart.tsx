@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { useAppDispatch } from "../store/store";
-import { removeCart } from "../store/features/foodSlice";
+import { useAppDispatch } from "../../store/store";
+import { removeCart } from "../../store/features/foodSlice";
 
 interface ObjectType {
   [key: string]: number;

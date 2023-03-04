@@ -1,8 +1,8 @@
 import React from "react";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { addCart } from "../store/features/foodSlice";
-import { useAppDispatch } from "../store/store";
+import { addCart } from "../../store/features/foodSlice";
+import { useAppDispatch } from "../../store/store";
 
 type MeasureType = { disseminationText: string };
 type FoodType = {
