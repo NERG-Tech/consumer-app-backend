@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { resetCart } from "../store/features/foodSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { resetCart } from "../../store/features/foodSlice";
 
 import axios from "axios";
 
@@ -35,7 +35,7 @@ const Nutritions = () => {
     // types: Branded,SR%20Legacy,Foundation,Survey%20%28FNDDS%29
     let legacy = ",SR%20Legacy";
     let extra = "&dataType=Foundation,Survey%20%28FNDDS%29";
-    let added = `&pageSize=200&pageNumber=${i}&requireAllWords=Yes`;
+    let added = `&pageSize=200&pageNumber=${i}&requireAllWords=No`;
     const options = {
       method: "GET",
       url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${extra}`,
@@ -49,18 +49,18 @@ const Nutritions = () => {
   };
   const getDataWithPageNumber2 = async () => {
     // types: Branded,SR%20Legacy,Foundation,Survey%20%28FNDDS%29
-    let word = "Banana";
+
     let legacy = "&dataType=SR%20Legacy";
-    let extra = "&dataType=Foundation,Survey%20%28FNDDS%29" + legacy;
-    let added = `&pageSize=200&requireAllWords=Yes`;
+    // let extra = "&dataType=Foundation,Survey%20%28FNDDS%29" + legacy;
+    let added = `&pageSize=200&requireAllWords=No`;
     const options = {
       method: "GET",
-      url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${word}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${legacy}`,
+      url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${added}${legacy}`,
     };
     await axios.request(options).then((response) => {
       setData(response.data);
       //   setFoods((foods) => foods.concat(response.data.foods));
-      console.log("legacy, ", response.data.foods);
+      console.log("Version 2) legacy, ", response.data.foods);
 
       //   return response.data.totalPages;
     });
@@ -85,8 +85,8 @@ const Nutritions = () => {
     setLoading(false);
   };
 
-  console.log("data", data);
-  console.log("foods", foods);
+  console.log("Total data) ", data);
+  console.log("Version 1) ", foods);
 
   //   useEffect(() => {
   //     testLegacy();
@@ -131,12 +131,7 @@ const Nutritions = () => {
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
             <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
-              <Box sx={{ pr: 2, fontWeight: "bold" }}>
-                {/* Search on usda.gov
-                <br />
-                (Required All) */}
-                Search
-              </Box>
+              <Box sx={{ pr: 2, fontWeight: "bold" }}>Search</Box>
               <TextField
                 placeholder="Ingredients"
                 onChange={(e) => setIngredient(e.target.value)}

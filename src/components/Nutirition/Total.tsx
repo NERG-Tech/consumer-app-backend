@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { useAppSelector } from "../store/store";
+import { useAppSelector } from "../../store/store";
 import * as Cart from "./Cart";
 
 const Total = () => {
