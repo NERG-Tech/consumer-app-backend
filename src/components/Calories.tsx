@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { TextField, Button } from "@mui/material/";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useAppSelector } from "../store/store";
+import * as Calculator from "./Nutirition/calculator";
 
 const Calories = () => {
+  const cart = useAppSelector((state) => state.cart.cart);
+
+  const [nutrition, setNutrition] = useState<any>(null);
+
+  useEffect(() => {
+    setNutrition(Calculator.calculate(cart));
+  }, [cart]);
+  console.log(nutrition);
+
   const [data, setData] = useState<{
     sex: string;
     age: number;
@@ -19,6 +30,7 @@ const Calories = () => {
   }>();
 
   const [factor, setFactor] = React.useState("Sedentary");
+  const [err, setErr] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setFactor(event.target.value);
@@ -28,33 +40,47 @@ const Calories = () => {
     event.preventDefault();
     const target = event.target;
 
-    const heightInCm = feetInchesToCm(
-      target.heightFeet.value,
-      target.heightInch.value
-    );
-    const weightInKg = parseFloat((target.weight.value / 2.205).toFixed(2));
-    const bmr = calculateBMR(
-      weightInKg,
-      heightInCm,
-      target.age.value,
-      target.sex.value
-    );
-    const calory = calculateDailyCalory(factor, bmr);
+    if (
+      target.age.value &&
+      target.age.value > 0 &&
+      target.weight.value &&
+      target.weight.value > 0 &&
+      target.sex.value &&
+      target.heightFeet &&
+      target.heightInch &&
+      target.weight
+    ) {
+      setErr("");
+      const heightInCm = feetInchesToCm(
+        target.heightFeet.value,
+        target.heightInch.value
+      );
+      const weightInKg = parseFloat((target.weight.value / 2.205).toFixed(2));
+      const bmr = calculateBMR(
+        weightInKg,
+        heightInCm,
+        target.age.value,
+        target.sex.value
+      );
+      const calory = calculateDailyCalory(factor, bmr);
 
-    const data = {
-      age: target.age.value,
-      weight: target.weight.value,
-      sex: target.sex.value,
-      heightFeet: target.heightFeet.value,
-      heightInch: target.heightInch.value,
-      weightInKg: weightInKg,
-      heightInCm: heightInCm,
-      factor: factor,
-      bmr: bmr,
-      calory: calory,
-    };
-    console.log(data);
-    setData(data);
+      const data = {
+        age: target.age.value,
+        weight: target.weight.value,
+        sex: target.sex.value,
+        heightFeet: target.heightFeet.value,
+        heightInch: target.heightInch.value,
+        weightInKg: weightInKg,
+        heightInCm: heightInCm,
+        factor: factor,
+        bmr: bmr,
+        calory: calory,
+      };
+      console.log(data);
+      setData(data);
+    } else {
+      setErr("Error: please check your input.");
+    }
   };
 
   const feetInchesToCm = (feet: number, inch: number): number => {
@@ -221,57 +247,89 @@ const Calories = () => {
           </Box>
         </form>
       </Box>
-      <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>
-        Calculate BMR:
-        {data && (
-          <Box sx={{ color: "black" }}>
-            {data && data.sex === "Male" ? (
-              <Box>
-                <Box>
-                  Man's BMR = 66.5 + (13.75 × weight in kg) + (5.003 × height in
-                  cm) - (6.75 × age)
-                </Box>
-                <Box
-                  sx={{
-                    color: "#191970",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}
-                >
-                  BMR = 66.5 + ( 13.75 * {data.weightInKg} (kg) ) + ( 5.003 *{" "}
-                  {data.heightInCm} (cm)) - (6.75 * {data.age}) = {data.bmr}{" "}
-                  kcal/day
-                </Box>
+      <Box>
+        {err.length > 1 ? (
+          <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>{err}</Box>
+        ) : (
+          <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>
+            Calculate BMR:
+            {data && (
+              <Box sx={{ color: "black" }}>
+                {data && data.sex === "Male" ? (
+                  <Box>
+                    <Box>
+                      Man's BMR = 66.5 + (13.75 × weight in kg) + (5.003 ×
+                      height in cm) - (6.75 × age)
+                    </Box>
+                    <Box
+                      sx={{
+                        color: "#191970",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      BMR = 66.5 + ( 13.75 * {data.weightInKg} (kg) ) + ( 5.003
+                      * {data.heightInCm} (cm)) - (6.75 * {data.age}) ={" "}
+                      {data.bmr} kcal/day
+                    </Box>
 
-                <Box sx={{ pt: 1 }}>* Total daily calorie needs</Box>
-              </Box>
-            ) : (
-              <Box>
-                <Box>
-                  Woman's BMR = 655.1 + (9.563 × weight in kg) + (1.850 × height
-                  in cm) - (4.676 × age)
-                </Box>
-                <Box
-                  sx={{
-                    color: "#191970",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}
-                >
-                  BMR = 66.5 + ( 13.75 * {data.weightInKg} (kg) ) + ( 5.003 *{" "}
-                  {data.heightInCm} (cm)) - (6.75 * {data.age}) = {data.bmr}{" "}
-                  kcal/day
-                </Box>
-                <Box sx={{ pt: 1 }}>
-                  * Total daily calorie needs:{" "}
-                  <span style={{ color: "green" }}>
-                    {data.calory} kcal / day
-                  </span>
-                </Box>
+                    <Box
+                      sx={{
+                        pt: 1,
+                        color: "#2F4F4F",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      &#128102; Calories to Consume: {data.calory} kcal/day
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box>
+                    <Box>
+                      Woman's BMR = 655.1 + (9.563 × weight in kg) + (1.850 ×
+                      height in cm) - (4.676 × age)
+                    </Box>
+                    <Box
+                      sx={{
+                        color: "#191970",
+                        fontWeight: "bold",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      BMR = 66.5 + ( 13.75 * {data.weightInKg} (kg) ) + ( 5.003
+                      * {data.heightInCm} (cm)) - (6.75 * {data.age}) ={" "}
+                      {data.bmr} kcal/day
+                    </Box>
+                    <Box sx={{ pt: 1 }}>
+                      * Total daily calorie needs: {data.calory} kcal/day
+                    </Box>
+                  </Box>
+                )}
               </Box>
             )}
           </Box>
         )}
+        <Box sx={{ mt: 3, pl: 3, lineHeight: "150%" }}>
+          <Box sx={{ mb: "4px" }}>Foods you ate:</Box>
+          {cart.map((food, index) => {
+            return (
+              <Box>
+                {index + 1}. {food.description} ({food.disseminationText}) *{" "}
+                {food.quantity}
+              </Box>
+            );
+          })}
+          <Box sx={{ display: "flex" }}>
+            {nutrition && (
+              <Box sx={{ color: "blue" }}>
+                Energy from foods you ate: {nutrition.energy}{" "}
+                {nutrition.energyUnit}
+              </Box>
+            )}
+          </Box>
+          <Box sx={{ borderTop: "1px solid lightgray", pt: 1, mt: 1 }}>
+            Result:
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

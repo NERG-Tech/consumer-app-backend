@@ -14,7 +14,7 @@ export interface Food {
   gramPerWeight: number;
 }
 
-interface CartState {
+export interface CartState {
   cart: Food[];
 }
 

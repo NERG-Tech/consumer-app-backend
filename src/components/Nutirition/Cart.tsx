@@ -6,6 +6,7 @@ import { removeCart } from "../../store/features/foodSlice";
 interface ObjectType {
   [key: string]: number;
 }
+
 export const indexes: ObjectType = {
   Protein: 0,
   TotalLipidFat: 1,
