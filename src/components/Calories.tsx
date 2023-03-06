@@ -19,6 +19,9 @@ const Calories = () => {
     fiberMath: string;
     carb: number;
     carbMath: string;
+    fatPoint: number;
+    fatMath: string;
+    fat: number;
   }>({
     protein: 0,
     proteinMath: "",
@@ -26,6 +29,9 @@ const Calories = () => {
     fiberMath: "",
     carb: 0,
     carbMath: "",
+    fatPoint: 0,
+    fatMath: "",
+    fat: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -393,6 +399,15 @@ const Calories = () => {
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.carb}%</span>{" "}
                   of recommended fiber of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended fat is {percentage.fatPoint} g/day
+                <Box>{percentage.carb && percentage.fatMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.fat}%</span> of
+                  recommended fat of a day.
                 </Box>
               </Box>
             </Box>
