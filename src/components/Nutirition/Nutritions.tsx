@@ -28,6 +28,7 @@ const Nutritions = () => {
       }>;
     }>
   >([]);
+
   const [ingredient, setIngredient] = useState<string>();
   const [loading, setLoading] = useState(false);
 
