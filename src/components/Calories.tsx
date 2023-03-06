@@ -12,11 +12,22 @@ const Calories = () => {
   const cart = useAppSelector((state) => state.cart.cart);
 
   const [nutrition, setNutrition] = useState<any>(null);
-
-  useEffect(() => {
-    setNutrition(Calculator.calculate(cart));
-  }, [cart]);
-  console.log(nutrition);
+  const [percentage, setPercentage] = useState<{
+    protein: number;
+    proteinMath: string;
+    fiber: number;
+    fiberMath: string;
+    carb: number;
+    carbMath: string;
+  }>({
+    protein: 0,
+    proteinMath: "",
+    fiber: 0,
+    fiberMath: "",
+    carb: 0,
+    carbMath: "",
+  });
+  const [msg, setMsg] = useState("");
 
   const [data, setData] = useState<{
     sex: string;
@@ -28,6 +39,25 @@ const Calories = () => {
     bmr: number;
     calory: number;
   }>();
+
+  useEffect(() => {
+    setNutrition(Calculator.calculate(cart));
+  }, [cart]);
+  useEffect(() => {
+    if (nutrition && data) {
+      setPercentage(
+        Calculator.getPercentages({
+          ...nutrition,
+          sex: data.sex,
+        })
+      );
+    } else {
+      setMsg("Please put age, gender, weight and height");
+    }
+  }, [nutrition, data]);
+
+  console.log(nutrition);
+  console.log(percentage);
 
   const [factor, setFactor] = React.useState("Sedentary");
   const [err, setErr] = React.useState("");
@@ -252,11 +282,33 @@ const Calories = () => {
           <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>{err}</Box>
         ) : (
           <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>
-            Calculate BMR:
+            <Box sx={{ mb: "4px" }}>Foods you ate:</Box>
+            {cart.map((food, index) => {
+              return (
+                <Box>
+                  {index + 1}. {food.description} ({food.disseminationText}) *{" "}
+                  {food.quantity}
+                </Box>
+              );
+            })}
+            <Box sx={{ display: "flex" }}>
+              {nutrition && (
+                <Box sx={{ color: "blue" }}>
+                  Energy from foods you ate: {nutrition.energy}{" "}
+                  {nutrition.energyUnit}
+                </Box>
+              )}
+            </Box>
+
             {data && (
               <Box sx={{ color: "black" }}>
                 {data && data.sex === "Male" ? (
                   <Box>
+                    <Box
+                      sx={{ borderTop: "1px solid lightgrey", mt: 2, pt: 1 }}
+                    >
+                      Calculate BMR:
+                    </Box>
                     <Box>
                       Man's BMR = 66.5 + (13.75 × weight in kg) + (5.003 ×
                       height in cm) - (6.75 × age)
@@ -279,7 +331,7 @@ const Calories = () => {
                         textDecoration: "underline",
                       }}
                     >
-                      &#128102; Calories to Consume: {data.calory} kcal/day
+                      &#128512; Calories to Consume: {data.calory} kcal/day
                     </Box>
                   </Box>
                 ) : (
@@ -308,28 +360,44 @@ const Calories = () => {
             )}
           </Box>
         )}
-        <Box sx={{ mt: 3, pl: 3, lineHeight: "150%" }}>
-          <Box sx={{ mb: "4px" }}>Foods you ate:</Box>
-          {cart.map((food, index) => {
-            return (
-              <Box>
-                {index + 1}. {food.description} ({food.disseminationText}) *{" "}
-                {food.quantity}
+        {percentage && nutrition && (
+          <Box sx={{ mt: 3, pl: 3, lineHeight: "150%", fontSize: "14px" }}>
+            <Box sx={{ borderTop: "1px solid lightgray", pt: 1, mt: 1 }}>
+              Percentage of nutrients taken:
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended protein is 56 g/day(male) and 46
+                g/day(female)
+                <Box>{percentage.proteinMath && percentage.proteinMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.protein}%
+                  </span>{" "}
+                  of recommended proteins.
+                </Box>
               </Box>
-            );
-          })}
-          <Box sx={{ display: "flex" }}>
-            {nutrition && (
-              <Box sx={{ color: "blue" }}>
-                Energy from foods you ate: {nutrition.energy}{" "}
-                {nutrition.energyUnit}
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended fiber is 38 g/day(male) and 25
+                g/day(female)
+                <Box>{percentage.fiberMath && percentage.fiberMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.fiber}%</span>{" "}
+                  of recommended fiber.
+                </Box>
+              </Box>{" "}
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended carb is 130 g/day
+                <Box>{percentage.carb && percentage.carbMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.carb}%</span>{" "}
+                  of recommended fiber of a day.
+                </Box>
               </Box>
-            )}
+            </Box>
           </Box>
-          <Box sx={{ borderTop: "1px solid lightgray", pt: 1, mt: 1 }}>
-            Result:
-          </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   );

@@ -298,3 +298,89 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     retinolUnit,
   };
 };
+
+export const getPercentages = (nutrition: {
+  caffeine: number;
+  caffeineUnit: string;
+  calcium: number;
+  calciumUnit: string;
+  carbohydrate: number;
+  carbohydrateUnit: string;
+  cholesterol: number;
+  cholesterolUnit: string;
+  choline: number;
+  cholineUnit: string;
+  energy: number;
+  energyUnit: string;
+  fiber: number;
+  fiberUnit: string;
+  folate: number;
+  folateUnit: string;
+  iron: number;
+  ironUnit: string;
+  niacin: number;
+  niacinUnit: string;
+  protein: number;
+  proteinUnit: string;
+  retinol: number;
+  retinolUnit: string;
+  riboflavin: number;
+  riboflavinUnit: string;
+  sodium: number;
+  sodiumUnit: string;
+  sugar: number;
+  sugarUnit: string;
+  theobromine: number;
+  theobromineUnit: string;
+  thiamin: number;
+  thiaminUnit: string;
+  totalLipidFat: number;
+  totalLipidFatUnit: string;
+  vitaminA: number;
+  vitaminAUnit: string;
+  vitaminB6: number;
+  vitaminB6Unit: string;
+  vitaminB12: number;
+  vitaminB12Unit: string;
+  vitaminC: number;
+  vitaminCUnit: string;
+  vitaminD: number;
+  vitaminDUnit: string;
+  vitaminE: number;
+  vitaminEUnit: string;
+  vitaminK: number;
+  vitaminKUnit: string;
+  water: number;
+  waterUnit: string;
+  sex: string;
+  calory: number;
+}) => {
+  let proteinMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: (${getTwoDigitFloat(nutrition.protein)} * 100) / 56 `
+      : `Math: (${getTwoDigitFloat(nutrition.protein)} * 100) / 46 `;
+  let protein =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.protein * 100) / 56)
+      : getTwoDigitFloat((nutrition.protein * 100) / 46);
+
+  let fiberMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.fiber)} * 100) / 38)`
+      : `Math: ((${getTwoDigitFloat(nutrition.fiber)} * 100) / 25)`;
+  let fiber =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.fiber * 100) / 38)
+      : getTwoDigitFloat((nutrition.fiber * 100) / 25);
+
+  let carbMath = `((${nutrition.carbohydrate} * 100) / 130`;
+  let carb = getTwoDigitFloat((nutrition.carbohydrate * 100) / 130);
+
+  let fat = nutrition.energy;
+
+  return { protein, proteinMath, fiberMath, fiber, fat, carb, carbMath };
+};
+
+const getTwoDigitFloat = (num: number): number => {
+  return parseFloat(num.toFixed(2));
+};
