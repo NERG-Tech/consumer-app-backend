@@ -366,13 +366,15 @@ const Calories = () => {
             )}
           </Box>
         )}
-        {percentage && nutrition && (
+        {percentage && data && (
           <Box sx={{ mt: 3, pl: 3, lineHeight: "150%", fontSize: "14px" }}>
             <Box sx={{ borderTop: "1px solid lightgray", pt: 1, mt: 1 }}>
               Percentage of nutrients taken:
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended protein is 56 g/day(male) and 46
-                g/day(female)
+                &#128512; Recommended protein is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "56 g/day (male)"
+                  : "46 g/day (female)"}
                 <Box>{percentage.proteinMath && percentage.proteinMath}</Box>
                 <Box>
                   You had{" "}
@@ -383,8 +385,10 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended fiber is 38 g/day(male) and 25
-                g/day(female)
+                &#128512; Recommended fiber is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "38 g/day (male)"
+                  : "25 g/day (female)"}
                 <Box>{percentage.fiberMath && percentage.fiberMath}</Box>
                 <Box>
                   You had{" "}
@@ -394,7 +398,7 @@ const Calories = () => {
               </Box>{" "}
               <Box sx={{ pt: 1 }}>
                 &#128512; Recommended carb is 130 g/day
-                <Box>{percentage.carb && percentage.carbMath}</Box>
+                <Box>Math: {percentage.carbMath && percentage.carbMath}</Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.carb}%</span>{" "}
@@ -407,7 +411,7 @@ const Calories = () => {
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.fat}%</span> of
-                  recommended fat of a day.
+                  fat in calories.
                 </Box>
               </Box>
             </Box>

@@ -10,19 +10,24 @@ import Layout from "./components/common/Layout";
 import Nutritions from "./components/Nutirition/Nutritions";
 import Calories from "./components/Calories";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="calories" element={<Calories />} />
-          <Route path="nutritions" element={<Nutritions />} />
-          <Route path="app" element={<App />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="calories" element={<Calories />} />
+            <Route path="nutritions" element={<Nutritions />} />
+            <Route path="app" element={<App />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  </LocalizationProvider>
 );

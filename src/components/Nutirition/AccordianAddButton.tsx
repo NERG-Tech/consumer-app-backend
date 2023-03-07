@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import { addCart } from "../../store/features/foodSlice";
 import { useAppDispatch } from "../../store/store";
+import { Dayjs } from "dayjs";
 
 type MeasureType = { disseminationText: string };
 type FoodType = {
@@ -17,11 +18,11 @@ interface Props {
   food: FoodType;
   disseminationText: string;
   gramPerWeight: number;
+  dateTime: Dayjs;
 }
 
 const AccordianAddButton = (props: Props) => {
   const dispatch = useAppDispatch();
-  //   console.log("gramWeight", props.gramWeight);
 
   const [quantity, setQuantity] = React.useState(1);
   return (
@@ -53,6 +54,7 @@ const AccordianAddButton = (props: Props) => {
                 foodNutrients: props.food.foodNutrients,
                 disseminationText: props.measure.disseminationText,
                 gramPerWeight: props.gramPerWeight,
+                dateTime: props.dateTime,
               })
             )
           }
