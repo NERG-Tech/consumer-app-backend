@@ -34,6 +34,18 @@ const Calories = () => {
     niacinMath: string;
     vitaminB6Math: string;
     vitaminB6: number;
+    vitaminB12Math: string;
+    vitaminB12: number;
+    vitaminCMath: string;
+    vitaminC: number;
+    vitaminD: number;
+    vitaminDMath: string;
+    vitaminE: number;
+    vitaminEMath: string;
+    vitaminKMath: string;
+    vitaminK: number;
+    cholineMath: string;
+    chloine: number;
   }>({
     protein: 0,
     proteinMath: "",
@@ -52,6 +64,18 @@ const Calories = () => {
     niacinMath: "",
     vitaminB6Math: "",
     vitaminB6: 0,
+    vitaminB12Math: "",
+    vitaminB12: 0,
+    vitaminCMath: "",
+    vitaminC: 0,
+    vitaminD: 0,
+    vitaminDMath: "",
+    vitaminE: 0,
+    vitaminEMath: "",
+    vitaminKMath: "",
+    vitaminK: 0,
+    cholineMath: "",
+    chloine: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -542,6 +566,77 @@ const Calories = () => {
                     {percentage.vitaminB6}%
                   </span>{" "}
                   of recommended vitaminB6 of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminB12 is 2.4
+                <Box>
+                  {percentage.vitaminB12Math && percentage.vitaminB12Math}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminB12}%
+                  </span>{" "}
+                  of recommended vitaminB6 of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminC is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "90" : "75"}
+                <Box>{percentage.vitaminCMath && percentage.vitaminCMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminC}%
+                  </span>{" "}
+                  of recommended vitaminC of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminD is 20
+                <Box>{percentage.vitaminDMath && percentage.vitaminDMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminD}%
+                  </span>{" "}
+                  of recommended vitaminD of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminE is 15
+                <Box>{percentage.vitaminEMath && percentage.vitaminEMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminE}%
+                  </span>{" "}
+                  of recommended vitaminE of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminK is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "120" : "90"}
+                <Box>{percentage.vitaminKMath && percentage.vitaminKMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminK}%
+                  </span>{" "}
+                  of recommended vitaminK of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended chloine is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "550" : "425"}
+                <Box>{percentage.cholineMath && percentage.cholineMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.chloine}%
+                  </span>{" "}
+                  of recommended chloine of a day.
                 </Box>
               </Box>
             </Box>
