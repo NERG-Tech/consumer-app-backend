@@ -18,7 +18,7 @@ interface Props {
   food: FoodType;
   disseminationText: string;
   gramPerWeight: number;
-  dateTime: Dayjs;
+  dateTime: number;
 }
 
 const AccordianAddButton = (props: Props) => {

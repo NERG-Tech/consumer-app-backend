@@ -2,7 +2,7 @@ import * as FoodSlice from "../../store/features/foodSlice";
 import * as Cart from "../Nutirition/Cart";
 
 export const calculate = (cart: FoodSlice.Food[]) => {
-  console.log("calculate cart", cart);
+  // console.log("calculate cart", cart);
   let protein = 0,
     water = 0,
     totalLipidFat = 0,

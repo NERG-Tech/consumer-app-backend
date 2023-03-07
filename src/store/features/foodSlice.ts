@@ -13,10 +13,10 @@ export interface Food {
   }>;
   disseminationText: string;
   gramPerWeight: number;
-  dateTime: Dayjs;
+  dateTime: number;
 }
 
-interface CartState {
+export interface CartState {
   cart: Food[];
 }
 
@@ -50,28 +50,9 @@ export const FoodSlice = createSlice({
         foodNutrients: Array<any>;
         disseminationText: string;
         gramPerWeight: number;
-        dateTime: Dayjs;
+        dateTime: number;
       }>
     ) => {
-      // let objIndex = state.cart.findIndex(
-      //   (obj) =>
-      //     obj.description === action.payload.description &&
-      //     obj.disseminationText === action.payload.disseminationText
-      // );
-
-      // if (objIndex > -1) {
-      //   // when there is existing item
-      //   let oldQuantity = state.cart[objIndex].quantity;
-      //   state.cart.splice(objIndex, 1, {
-      //     name: action.payload.name,
-      //     description: action.payload.description,
-      //     quantity: oldQuantity + action.payload.quantity,
-      //     foodNutrients: action.payload.foodNutrients,
-      //     disseminationText: action.payload.disseminationText,
-      //     gramPerWeight: action.payload.gramPerWeight,
-      //   });
-      // } else {
-      //   // push a new item
       state.cart.push({
         name: action.payload.name,
         description: action.payload.description,
@@ -81,8 +62,6 @@ export const FoodSlice = createSlice({
         gramPerWeight: action.payload.gramPerWeight,
         dateTime: action.payload.dateTime,
       });
-      // }
-      console.log("state.cart", state.cart);
     },
     resetCart: (state, action) => {
       state.cart = [];
