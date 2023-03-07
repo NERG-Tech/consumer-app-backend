@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box } from "@mui/system";
-
+import { Dayjs } from "dayjs";
 import AccordianAddButton from "./AccordianAddButton";
 
 export interface Props {
@@ -14,6 +14,7 @@ export interface Props {
     foodNutrients: Array<Array<any>>;
     foodMeasures: Array<any>;
   };
+  dateTime: Dayjs;
 }
 
 const Accordian = (props: Props) => {
@@ -34,14 +35,7 @@ const Accordian = (props: Props) => {
         <Box sx={{ pl: 3 }}>
           <Box>dataType: {props.food.dataType}</Box>
           <Box>foodCategory: {props.food.foodCategory}</Box>
-          {/* <Box>
-            allHighlightFields:{" "}
-            <span
-              dangerouslySetInnerHTML={{
-                __html: props.food.allHighlightFields,
-              }}
-            ></span>
-          </Box> */}
+
           <Box>additionalDescriptions: {props.food.additionalDescriptions}</Box>
 
           {props.food.foodMeasures.map((measure, index) => {
@@ -54,6 +48,7 @@ const Accordian = (props: Props) => {
                   food={props.food}
                   disseminationText={measure.disseminationText}
                   gramPerWeight={gramPerWeight}
+                  dateTime={props.dateTime}
                 />
               );
             }

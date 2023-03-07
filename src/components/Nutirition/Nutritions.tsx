@@ -1,7 +1,11 @@
 import { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+
 import { Button, Box, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { resetCart } from "../../store/features/foodSlice";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 import axios from "axios";
 
@@ -9,9 +13,17 @@ import Accordian from "./Accordian";
 import Cart from "./Cart";
 import Total from "./Total";
 
+var utc = require("dayjs/plugin/utc");
+
 const Nutritions = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
+
+  let now = dayjs();
+  dayjs.extend(utc);
+
+  const [time, setTime] = useState<Dayjs | null>(dayjs(now));
+  console.log("time", time);
 
   const [data, setData] = useState();
 
@@ -89,41 +101,6 @@ const Nutritions = () => {
   console.log("Total data) ", data);
   console.log("Version 1) ", foods);
 
-  //   useEffect(() => {
-  //     testLegacy();
-  //     testSearchById();
-  //   }, []);
-
-  //   const [legacy, setLegacy] = useState();
-  //   const [legacy2, setLegacy2] = useState();
-
-  //   const testLegacy = async () => {
-  //     let legacy = "&dataType=SR%20Legacy&Foundation";
-  //     // let extra = "&dataType=Foundation,Survey%20%28FNDDS%29";
-  //     let extra = `&pageSize=200&requireAllWords=Yes`;
-  //     const options = {
-  //       method: "GET",
-  //       url: `https://api.nal.usda.gov/fdc/v1/foods/search?query=${ingredient}&api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc${extra}${legacy}`,
-  //     };
-  //     await axios.request(options).then((response) => {
-  //       setLegacy(response.data);
-  //       //   console.log("testLegacy Legacy response.data", response.data);
-  //     });
-  //   };
-
-  //   const testSearchById = async () => {
-  //     const options = {
-  //       method: "GET",
-  //       url: `https://api.nal.usda.gov/fdc/v1/food/2344721?api_key=EMNTUpEDEMSChkOQGusceI72JQeMvrnKuzknPLnc&dataType=SR%20Legacy&format=full`,
-  //     };
-  //     await axios.request(options).then((response) => {
-  //       setLegacy2(response.data);
-  //     });
-  //   };
-
-  //   console.log("legacy", legacy);
-  //   console.log("legacy2", legacy2);
-
   return (
     <Box>
       {loading ? (
@@ -131,8 +108,28 @@ const Nutritions = () => {
       ) : (
         <Box sx={{ display: "flex" }}>
           <Box sx={{}}>
+            <Box sx={{ display: "flex" }}>
+              <Box
+                sx={{
+                  width: "120px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                Date & Time{" "}
+              </Box>
+              <DemoContainer components={["DateTimePicker", "DateTimePicker"]}>
+                <DateTimePicker
+                  label="Controlled picker"
+                  value={time}
+                  onChange={(newValue) => setTime(newValue)}
+                />
+              </DemoContainer>
+            </Box>
             <Box sx={{ display: "flex", alignItems: "center", mr: 2, mt: 3 }}>
-              <Box sx={{ pr: 2, fontWeight: "bold" }}>Search</Box>
+              <Box sx={{ pr: 2, fontWeight: "bold", width: "105px" }}>
+                Search
+              </Box>
               <TextField
                 placeholder="Ingredients"
                 onChange={(e) => setIngredient(e.target.value)}
@@ -150,7 +147,9 @@ const Nutritions = () => {
             <Box sx={{ lineHeight: "180%", maxWidth: "600px", pt: 3 }}>
               {foods.map((food: any, index: number) => (
                 <Box key={index}>
-                  <Accordian index={index} food={food} />
+                  {time && (
+                    <Accordian index={index} food={food} dateTime={time} />
+                  )}
                 </Box>
               ))}
             </Box>

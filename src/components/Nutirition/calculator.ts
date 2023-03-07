@@ -373,16 +373,18 @@ export const getPercentages = (nutrition: {
       ? getTwoDigitFloat((nutrition.fiber * 100) / 38)
       : getTwoDigitFloat((nutrition.fiber * 100) / 25);
 
-  let carbMath = `((${nutrition.carbohydrate} * 100) / 130`;
+  let carbMath = `((${getTwoDigitFloat(nutrition.carbohydrate)} * 100) / 130`;
   let carb = getTwoDigitFloat((nutrition.carbohydrate * 100) / 130);
 
   let fatPoint = getTwoDigitFloat(nutrition.energy * 0.2);
   let fat = getTwoDigitFloat((nutrition.totalLipidFat / fatPoint) * 100);
   let fatMath = `Calory: ${getTwoDigitFloat(
     nutrition.energy
-  )}, 100% Fat Point (20%) is ${getTwoDigitFloat(fatPoint)}, You had ${
-    nutrition.totalLipidFat
-  } ${nutrition.totalLipidFatUnit} `;
+  )} kcal/day, 100% Fat Point (20%) is ${getTwoDigitFloat(
+    fatPoint
+  )} kcal/day, You had ${nutrition.totalLipidFat} ${
+    nutrition.totalLipidFatUnit
+  } `;
 
   return {
     protein,
