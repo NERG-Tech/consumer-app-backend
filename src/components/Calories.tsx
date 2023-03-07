@@ -26,6 +26,14 @@ const Calories = () => {
     fatPoint: number;
     fatMath: string;
     fat: number;
+    vitaminAMath: string;
+    vitaminA: number;
+    thiaminMath: string;
+    thiamin: number;
+    niacin: number;
+    niacinMath: string;
+    vitaminB6Math: string;
+    vitaminB6: number;
   }>({
     protein: 0,
     proteinMath: "",
@@ -36,6 +44,14 @@ const Calories = () => {
     fatPoint: 0,
     fatMath: "",
     fat: 0,
+    vitaminAMath: "",
+    vitaminA: 0,
+    thiaminMath: "",
+    thiamin: 0,
+    niacin: 0,
+    niacinMath: "",
+    vitaminB6Math: "",
+    vitaminB6: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -164,7 +180,7 @@ const Calories = () => {
     }
   };
   return (
-    <Box sx={{ width: "1000px", display: "flex" }}>
+    <Box sx={{ width: "1200px", display: "flex" }}>
       <Box
         sx={{
           width: "400px",
@@ -317,10 +333,12 @@ const Calories = () => {
 
             <Box sx={{ pt: 1 }}>
               === Last entry: {cart && cart[cart.length - 1].description} -{" "}
-              {cart &&
-                dayjs(cart[cart.length - 1].dateTime * 1000).format(
-                  "YYYY/MM/DD h:mm A"
-                )}
+              <span style={{ color: "orange", paddingLeft: "2px" }}>
+                {cart &&
+                  dayjs(cart[cart.length - 1].dateTime * 1000).format(
+                    "YYYY/MM/DD h:mm A"
+                  )}
+              </span>
             </Box>
             <Box sx={{ display: "flex" }}>
               {nutrition && (
@@ -329,6 +347,37 @@ const Calories = () => {
                   {nutrition.energyUnit}
                 </Box>
               )}
+            </Box>
+
+            <Box
+              sx={{
+                borderTop: "1px solid lightgray",
+                pl: 3,
+                pt: 2,
+                fontSize: "14px",
+                mt: 2,
+              }}
+            >
+              <Box>
+                Nutrient Log Analysis - We are going to sort by date later
+              </Box>
+
+              {cart &&
+                cart.map((food, index) => {
+                  if (
+                    parseInt(dayjs(food.dateTime * 1000).format("HH")) >= 6 &&
+                    parseInt(dayjs(food.dateTime * 1000).format("HH")) < 12
+                  ) {
+                    return <Box>Morning: {food.description} - Calory: </Box>;
+                  } else if (
+                    parseInt(dayjs(food.dateTime * 1000).format("HH")) >= 12 &&
+                    parseInt(dayjs(food.dateTime * 1000).format("HH")) < 18
+                  ) {
+                    return <Box>Afternoon: {food.description}</Box>;
+                  } else {
+                    return <Box>Night: {food.description}</Box>;
+                  }
+                })}
             </Box>
 
             {data && (
@@ -368,8 +417,8 @@ const Calories = () => {
                 ) : (
                   <Box>
                     <Box>
-                      Woman's BMR = 655.1 + (9.563 × weight in kg) + (1.850 ×
-                      height in cm) - (4.676 × age)
+                      Woman's BMR = 655.1 + (9.563 x weight in kg) + (1.850 ×
+                      height in cm) - (4.676 x age)
                     </Box>
                     <Box
                       sx={{
@@ -437,6 +486,62 @@ const Calories = () => {
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.fat}%</span> of
                   fat in calories.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitamin A is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "900 µg (male)"
+                  : "700 µg (female)"}
+                <Box>{percentage.vitaminAMath && percentage.vitaminAMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminA}%
+                  </span>{" "}
+                  of recommended vitamin A of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended thiamin is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "1.2 mg (male)"
+                  : "1.1 mg (female)"}
+                <Box>{percentage.thiaminMath && percentage.thiaminMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.thiamin}%
+                  </span>{" "}
+                  of recommended thiamin of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended niacin is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "1.2 mg (male)"
+                  : "1.1 mg (female)"}
+                <Box>{percentage.niacinMath && percentage.niacinMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.niacin}%</span>{" "}
+                  of recommended niacin of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminB6 is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "1.7 mg (male)"
+                  : "1.5 mg (female)"}
+                <Box>
+                  {percentage.vitaminB6Math && percentage.vitaminB6Math}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminB6}%
+                  </span>{" "}
+                  of recommended vitaminB6 of a day.
                 </Box>
               </Box>
             </Box>
