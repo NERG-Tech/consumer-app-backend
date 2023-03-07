@@ -386,6 +386,121 @@ export const getPercentages = (nutrition: {
     nutrition.totalLipidFatUnit
   } `;
 
+  let vitaminAMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminA)} * 100) / 900)`
+      : `Math: ((${getTwoDigitFloat(nutrition.vitaminA)} * 100) / 700)`;
+  let vitaminA =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.vitaminA * 100) / 900)
+      : getTwoDigitFloat((nutrition.vitaminA * 100) / 700);
+
+  let thiaminMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.thiamin)} * 100) / 1.2) ${
+          nutrition.thiaminUnit
+        }`
+      : `Math: (${getTwoDigitFloat(nutrition.thiamin)} * 100) / 1.1 ${
+          nutrition.thiaminUnit
+        }`;
+  let thiamin =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.thiamin * 100) / 16)
+      : getTwoDigitFloat((nutrition.thiamin * 100) / 14);
+
+  let niacinMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.niacin)} * 100) / 16) ${
+          nutrition.niacinUnit
+        }`
+      : `Math: (${getTwoDigitFloat(nutrition.niacin)} * 100) / 14 ${
+          nutrition.niacinUnit
+        }`;
+  let niacin =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.niacin * 100) / 16)
+      : getTwoDigitFloat((nutrition.niacin * 100) / 14);
+
+  let vitaminB6Math =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.7) ${
+          nutrition.vitaminB6Unit
+        }`
+      : `Math: (${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.5 ${
+          nutrition.vitaminB6Unit
+        }`;
+  let vitaminB6 =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.7)
+      : getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.5);
+
+  let folateMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.7) ${
+          nutrition.folate
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.5) ${
+          nutrition.folate
+        }`;
+  let folate =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.7)
+      : getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.5);
+
+  let vitaminB12Math = `Math: ((${getTwoDigitFloat(
+    nutrition.vitaminB12
+  )} * 100) / 2.4) ${nutrition.vitaminB12Unit}`;
+  let vitaminB12 = getTwoDigitFloat((nutrition.vitaminB12 * 100) / 2.4);
+
+  let vitaminCMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminC)} * 100) / 90) ${
+          nutrition.vitaminCUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.vitaminC)} * 100) / 75) ${
+          nutrition.vitaminCUnit
+        }`;
+  let vitaminC =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.vitaminC * 100) / 90)
+      : getTwoDigitFloat((nutrition.vitaminC * 100) / 75);
+
+  let vitaminDMath = `Math: ((${getTwoDigitFloat(
+    nutrition.vitaminD
+  )} * 100) / 20) ${nutrition.vitaminDUnit}`;
+  let vitaminD = getTwoDigitFloat((nutrition.vitaminD * 100) / 20);
+
+  let vitaminEMath = `Math: ((${getTwoDigitFloat(
+    nutrition.vitaminE
+  )} * 100) / 15) ${nutrition.vitaminEUnit}`;
+  let vitaminE = getTwoDigitFloat((nutrition.vitaminE * 100) / 15);
+
+  let vitaminKMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminK)} * 100) / 120) ${
+          nutrition.vitaminKUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.vitaminK)} * 100) / 90) ${
+          nutrition.vitaminKUnit
+        }`;
+  let vitaminK =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.vitaminK * 100) / 120)
+      : getTwoDigitFloat((nutrition.vitaminK * 100) / 90);
+
+  let cholineMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.choline)} * 100) / 550) ${
+          nutrition.cholineUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.choline)} * 100) / 425) ${
+          nutrition.cholineUnit
+        }`;
+  let chloine =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.choline * 100) / 550)
+      : getTwoDigitFloat((nutrition.choline * 100) / 425);
+
   return {
     protein,
     proteinMath,
@@ -396,6 +511,28 @@ export const getPercentages = (nutrition: {
     fatPoint,
     carb,
     carbMath,
+    vitaminAMath,
+    vitaminA,
+    thiaminMath,
+    thiamin,
+    niacinMath,
+    niacin,
+    vitaminB6Math,
+    vitaminB6,
+    folateMath,
+    folate,
+    vitaminB12Math,
+    vitaminB12,
+    vitaminCMath,
+    vitaminC,
+    vitaminDMath,
+    vitaminD,
+    vitaminEMath,
+    vitaminE,
+    vitaminKMath,
+    vitaminK,
+    cholineMath,
+    chloine,
   };
 };
 
