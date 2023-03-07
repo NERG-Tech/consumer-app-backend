@@ -7,9 +7,13 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useAppSelector } from "../store/store";
 import * as Calculator from "./Nutirition/calculator";
+import dayjs from "dayjs";
+import * as FoodSlice from "../store/features/foodSlice";
 
 const Calories = () => {
-  const cart = useAppSelector((state) => state.cart.cart);
+  const cartUnsorted = useAppSelector((state) => state.cart.cart);
+
+  const [cart, setCart] = useState<FoodSlice.Food[]>();
 
   const [nutrition, setNutrition] = useState<any>(null);
   const [percentage, setPercentage] = useState<{
@@ -47,8 +51,17 @@ const Calories = () => {
   }>();
 
   useEffect(() => {
-    setNutrition(Calculator.calculate(cart));
-  }, [cart]);
+    setNutrition(Calculator.calculate(cartUnsorted));
+
+    let newArray = [...cartUnsorted];
+
+    newArray.sort(function (a: FoodSlice.Food, b: FoodSlice.Food) {
+      return a.dateTime - b.dateTime;
+    });
+    setCart(newArray);
+    console.log(newArray);
+  }, [cartUnsorted]);
+
   useEffect(() => {
     if (nutrition && data) {
       setPercentage(
@@ -62,8 +75,8 @@ const Calories = () => {
     }
   }, [nutrition, data]);
 
-  console.log(nutrition);
-  console.log(percentage);
+  // console.log(nutrition);
+  // console.log(percentage);
 
   const [factor, setFactor] = React.useState("Sedentary");
   const [err, setErr] = React.useState("");
@@ -112,7 +125,7 @@ const Calories = () => {
         bmr: bmr,
         calory: calory,
       };
-      console.log(data);
+      // console.log(data);
       setData(data);
     } else {
       setErr("Error: please check your input.");
@@ -288,15 +301,27 @@ const Calories = () => {
           <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>{err}</Box>
         ) : (
           <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>
-            <Box sx={{ mb: "4px" }}>Foods you ate:</Box>
-            {cart.map((food, index) => {
-              return (
-                <Box>
-                  {index + 1}. {food.description} ({food.disseminationText}) *{" "}
-                  {food.quantity}
-                </Box>
-              );
-            })}
+            <Box sx={{ mb: "4px" }}>Foods you ate (time asc order):</Box>
+            {cart &&
+              cart.map((food, index) => {
+                return (
+                  <Box key={index}>
+                    {index + 1}. {food.description} ({food.disseminationText}) -{" "}
+                    Qty: {food.quantity}{" "}
+                    <span style={{ color: "orange", paddingLeft: "2px" }}>
+                      {dayjs(food.dateTime * 1000).format("YYYY/MM/DD h:mm A")}
+                    </span>
+                  </Box>
+                );
+              })}
+
+            <Box sx={{ pt: 1 }}>
+              === Last entry: {cart && cart[cart.length - 1].description} -{" "}
+              {cart &&
+                dayjs(cart[cart.length - 1].dateTime * 1000).format(
+                  "YYYY/MM/DD h:mm A"
+                )}
+            </Box>
             <Box sx={{ display: "flex" }}>
               {nutrition && (
                 <Box sx={{ color: "blue" }}>

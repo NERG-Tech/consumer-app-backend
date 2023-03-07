@@ -14,7 +14,7 @@ export interface Props {
     foodNutrients: Array<Array<any>>;
     foodMeasures: Array<any>;
   };
-  dateTime: Dayjs;
+  dateTime: number;
 }
 
 const Accordian = (props: Props) => {

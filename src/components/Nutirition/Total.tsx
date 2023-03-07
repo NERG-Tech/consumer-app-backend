@@ -9,11 +9,11 @@ const Total = () => {
   const [nutrition, setNutrition] = useState<any>(null);
 
   useEffect(() => {
-    console.log("Calculator.calculate(cart)", Calculator.calculate(cart));
+    // console.log("Calculator.calculate(cart)", Calculator.calculate(cart));
     setNutrition(Calculator.calculate(cart));
   }, [cart]);
 
-  console.log(nutrition);
+  // console.log(nutrition);
 
   return (
     <div>

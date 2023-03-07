@@ -23,7 +23,7 @@ const Nutritions = () => {
   dayjs.extend(utc);
 
   const [time, setTime] = useState<Dayjs | null>(dayjs(now));
-  console.log("time", time);
+  // console.log("time", time);
 
   const [data, setData] = useState();
 
@@ -73,7 +73,7 @@ const Nutritions = () => {
     await axios.request(options).then((response) => {
       setData(response.data);
       //   setFoods((foods) => foods.concat(response.data.foods));
-      console.log("Version 2) legacy, ", response.data.foods);
+      // console.log("Version 2) legacy, ", response.data.foods);
 
       //   return response.data.totalPages;
     });
@@ -98,8 +98,8 @@ const Nutritions = () => {
     setLoading(false);
   };
 
-  console.log("Total data) ", data);
-  console.log("Version 1) ", foods);
+  // console.log("Total data) ", data);
+  // console.log("Version 1) ", foods);
 
   return (
     <Box>
@@ -148,7 +148,11 @@ const Nutritions = () => {
               {foods.map((food: any, index: number) => (
                 <Box key={index}>
                   {time && (
-                    <Accordian index={index} food={food} dateTime={time} />
+                    <Accordian
+                      index={index}
+                      food={food}
+                      dateTime={time.unix()}
+                    />
                   )}
                 </Box>
               ))}
@@ -167,7 +171,7 @@ const Nutritions = () => {
             <Box sx={{ mt: 2, fontWeight: "bold" }}>Selected Items:</Box>
             <Box>
               {cart.map((cart, index) => {
-                console.log("===> cart ", cart);
+                // console.log("===> cart ", cart);
                 return <Cart cart={cart} index={index} key={index} />;
               })}
             </Box>

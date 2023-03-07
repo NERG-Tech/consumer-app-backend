@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { useAppDispatch } from "../../store/store";
 import { removeCart } from "../../store/features/foodSlice";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface ObjectType {
   [key: string]: number;
@@ -45,7 +45,7 @@ type Props = {
     quantity: number;
     foodNutrients: Array<any>;
     gramPerWeight: number;
-    dateTime: Dayjs;
+    dateTime: number;
   };
   index: number;
 };
@@ -105,7 +105,8 @@ const Cart = (props: Props) => {
           </span>
         </Box>
         <Box sx={{ color: "#FF8C00" }}>
-          Date & Time: {props.cart.dateTime.format("YYYY-MM-DD HH:mm:ss")}
+          Date & Time:{" "}
+          {dayjs(props.cart.dateTime * 1000).format("YYYY/MM/DD h:mm A")}
         </Box>
         <Box sx={{ pt: 1 }}>Name: {props.cart.name}</Box>
         <Box>Qty: {props.cart.quantity}</Box>
