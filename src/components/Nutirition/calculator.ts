@@ -31,7 +31,12 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     retinol = 0,
     monounsaturatedFat = 0,
     polyunsaturatedFat = 0,
-    fattyAcidSaturated = 0;
+    fattyAcidSaturated = 0,
+    copper = 0,
+    magnesium = 0,
+    selenium = 0,
+    zinc = 0,
+    potassium = 0;
 
   let proteinUnit = "";
   let totalLipidFatUnit = "";
@@ -62,6 +67,11 @@ export const calculate = (cart: FoodSlice.Food[]) => {
   let monounsaturatedFatUnit = "";
   let polyunsaturatedFatUnit = "";
   let fattyAcidSaturatedUnit = "";
+  let copperUnit = "";
+  let magnesiumUnit = "";
+  let seleniumUnit = "";
+  let zincUnit = "";
+  let potassiumUnit = "";
 
   cart.forEach((cart) => {
     // Protein
@@ -269,9 +279,50 @@ export const calculate = (cart: FoodSlice.Food[]) => {
       cart.gramPerWeight;
     fattyAcidSaturatedUnit =
       cart.foodNutrients[Cart.indexes["fattyAcidSaturated"]].unitName;
+
+    copper +=
+      cart.foodNutrients[Cart.indexes["Copper"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    copperUnit = cart.foodNutrients[Cart.indexes["Copper"]].unitName;
+
+    // magnesium
+    magnesium +=
+      cart.foodNutrients[Cart.indexes["Magnesium"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    magnesiumUnit = cart.foodNutrients[Cart.indexes["Magnesium"]].unitName;
+    //selenium
+    selenium +=
+      cart.foodNutrients[Cart.indexes["Selenium"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    seleniumUnit = cart.foodNutrients[Cart.indexes["Selenium"]].unitName;
+    // zinc
+    zinc +=
+      cart.foodNutrients[Cart.indexes["Zinc"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    zincUnit = cart.foodNutrients[Cart.indexes["Zinc"]].unitName;
+    // potassium
+    potassium +=
+      cart.foodNutrients[Cart.indexes["Potassium"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    potassiumUnit = cart.foodNutrients[Cart.indexes["Potassium"]].unitName;
   });
 
   return {
+    potassiumUnit,
+    potassium,
+    zincUnit,
+    zinc,
+    selenium,
+    seleniumUnit,
+    magnesium,
+    magnesiumUnit,
+    copper,
+    copperUnit,
     protein,
     proteinUnit,
     totalLipidFat,
@@ -406,6 +457,16 @@ export const getPercentages = (nutrition: {
   monounsaturatedFatUnit: string;
   fattyAcidSaturated: number;
   fattyAcidSaturatedUnit: string;
+  copper: number;
+  copperUnit: string;
+  magnesium: number;
+  magnesiumUnit: string;
+  selenium: number;
+  seleniumUnit: string;
+  zinc: number;
+  zincUnit: string;
+  potassium: number;
+  potassiumUnit: string;
   data: {
     sex: string;
     age: number;
@@ -417,6 +478,18 @@ export const getPercentages = (nutrition: {
     calory: number;
   };
 }) => {
+  let waterPoint =
+    nutrition.sex === "Male" || nutrition.sex === "male" ? 3700 : 2700;
+  let waterMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: 3.7 L => convert to L => 3.7 * 1,000 => ${waterPoint} g
+      <br />You had ${getTwoDigitFloat(nutrition.water)} ${nutrition.waterUnit}`
+      : `Math: 2.7 L => convert to L => 2.7 * 1,000 => ${waterPoint} g
+      <br />You had ${getTwoDigitFloat(nutrition.water)} ${
+          nutrition.waterUnit
+        }`;
+  let water = getTwoDigitFloat((nutrition.water / waterPoint) * 100);
+
   let proteinPoint = (nutrition.data.calory * 10) / 100;
   let proteinMath = `Math: ${
     nutrition.data.calory
@@ -592,18 +665,10 @@ export const getPercentages = (nutrition: {
       ? getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.7)
       : getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.5);
 
-  let folateMath =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? `Math: ((${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.7) ${
-          nutrition.folate
-        }`
-      : `Math: ((${getTwoDigitFloat(nutrition.vitaminB6)} * 100) / 1.5) ${
-          nutrition.folate
-        }`;
-  let folate =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.7)
-      : getTwoDigitFloat((nutrition.vitaminB6 * 100) / 1.5);
+  let folateMath = `Math: ((${getTwoDigitFloat(
+    nutrition.folate
+  )} * 100) / 400) ${nutrition.folateUnit}`;
+  let folate = getTwoDigitFloat((nutrition.folate * 100) / 400);
 
   let vitaminB12Math = `Math: ((${getTwoDigitFloat(
     nutrition.vitaminB12
@@ -682,7 +747,80 @@ export const getPercentages = (nutrition: {
   )} * 100) / 1500) ${nutrition.sodiumUnit}`;
   let sodium = getTwoDigitFloat((nutrition.sodium * 100) / 1500);
 
+  let vitaminB2Math =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.riboflavin)} * 100) / 1.3) ${
+          nutrition.riboflavinUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.riboflavin)} * 100) / 1.1) ${
+          nutrition.riboflavinUnit
+        }`;
+  let vitaminB2 =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.riboflavin * 100) / 1.3)
+      : getTwoDigitFloat((nutrition.riboflavin * 100) / 1.1);
+
+  let copperMath = `Math: ((${getTwoDigitFloat(
+    nutrition.copper
+  )} * 100) / 900) ${nutrition.copperUnit}`;
+  let copper = getTwoDigitFloat((nutrition.copper * 100) / 900);
+
+  let magnesiumMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.magnesium)} * 100) / 420) ${
+          nutrition.magnesiumUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.magnesium)} * 100) / 360) ${
+          nutrition.magnesiumUnit
+        }`;
+  let magnesium =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.magnesium * 100) / 420)
+      : getTwoDigitFloat((nutrition.magnesium * 100) / 360);
+
+  let seleniumMath = `Math: ((${getTwoDigitFloat(
+    nutrition.selenium
+  )} * 100) / 55) ${nutrition.seleniumUnit}`;
+  let selenium = getTwoDigitFloat((nutrition.selenium * 100) / 55);
+
+  let zincMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.zinc)} * 100) / 11) ${
+          nutrition.magnesiumUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.zinc)} * 100) / 9) ${
+          nutrition.magnesiumUnit
+        }`;
+  let zinc =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.zinc * 100) / 11)
+      : getTwoDigitFloat((nutrition.zinc * 100) / 9);
+
+  //
+  let potassiumMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.potassium)} * 100) / 3400) ${
+          nutrition.potassiumUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.potassium)} * 100) / 2600) ${
+          nutrition.potassiumUnit
+        }`;
+  let potassium =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.potassium * 100) / 3400)
+      : getTwoDigitFloat((nutrition.potassium * 100) / 2600);
+
   return {
+    potassiumMath,
+    potassium,
+    zincMath,
+    zinc,
+    selenium,
+    seleniumMath,
+    magnesium,
+    magnesiumMath,
+    copper,
+    copperMath,
     protein,
     proteinMath,
     fiberMath,
@@ -730,5 +868,9 @@ export const getPercentages = (nutrition: {
     sugar,
     cholesterol,
     cholesterolMath,
+    vitaminB2, // rivoflavin
+    vitaminB2Math,
+    waterMath,
+    water,
   };
 };

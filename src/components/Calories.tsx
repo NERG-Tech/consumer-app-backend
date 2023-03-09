@@ -62,7 +62,33 @@ const Calories = () => {
     sugarMath: string;
     cholesterolMath: string;
     cholesterol: number;
+    vitaminB2: number;
+    vitaminB2Math: string;
+    water: number;
+    waterMath: string;
+    folateMath: string;
+    folate: number;
+    copper: number;
+    copperMath: string;
+    magnesium: number;
+    magnesiumMath: string;
+    selenium: number;
+    seleniumMath: string;
+    zinc: number;
+    zincMath: string;
+    potassium: number;
+    potassiumMath: string;
   }>({
+    potassiumMath: "",
+    potassium: 0,
+    zinc: 0,
+    zincMath: "",
+    seleniumMath: "",
+    selenium: 0,
+    magnesiumMath: "",
+    magnesium: 0,
+    copper: 0,
+    copperMath: "",
     protein: 0,
     proteinMath: "",
     fiber: 0,
@@ -108,6 +134,12 @@ const Calories = () => {
     sugarMath: "",
     cholesterolMath: "",
     cholesterol: 0,
+    vitaminB2: 0,
+    vitaminB2Math: "",
+    water: 0,
+    waterMath: "",
+    folateMath: "",
+    folate: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -524,6 +556,26 @@ const Calories = () => {
                 Macro
               </Box>
               <Box sx={{ pt: 1 }}>
+                &#128512; Recommended water is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "3.7 L/day (Man)"
+                  : "2.7 L/day (Woman)"}
+                <Box>
+                  {percentage.waterMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.waterMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.water}%</span>{" "}
+                  of recommended water from water.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
                 &#128512; Recommended protein is 10%
                 <Box>
                   {percentage.proteinMath && (
@@ -709,7 +761,7 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended thiamin is{" "}
+                &#128512; Recommended thiamin (B1) is{" "}
                 {data.sex === "Male" || data.sex === "male"
                   ? "1.2 mg (male)"
                   : "1.1 mg (female)"}
@@ -723,7 +775,23 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended niacin is{" "}
+                &#128512; Recommended Rivoflavin (B2) is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "1.3 mg (male)"
+                  : "1.1 mg (female)"}
+                <Box>
+                  {percentage.vitaminB2Math && percentage.vitaminB2Math}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.vitaminB2}%
+                  </span>{" "}
+                  of recommended vitaminB2 of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended niacin (B3) is{" "}
                 {data.sex === "Male" || data.sex === "male"
                   ? "1.2 mg (male)"
                   : "1.1 mg (female)"}
@@ -735,7 +803,7 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminB6 is{" "}
+                &#128512; Recommended vitamin B6 is{" "}
                 {data.sex === "Male" || data.sex === "male"
                   ? "1.7 mg (male)"
                   : "1.5 mg (female)"}
@@ -751,7 +819,16 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminB12 is 2.4
+                &#128512; Recommended folate is 400
+                <Box>{percentage.folateMath && percentage.folateMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.folate}%</span>{" "}
+                  of recommended folate of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended vitaminB 12 is 2.4
                 <Box>
                   {percentage.vitaminB12Math && percentage.vitaminB12Math}
                 </Box>
@@ -760,11 +837,11 @@ const Calories = () => {
                   <span style={{ color: "#008080" }}>
                     {percentage.vitaminB12}%
                   </span>{" "}
-                  of recommended vitaminB6 of a day.
+                  of recommended vitamin B6 of a day.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminC is{" "}
+                &#128512; Recommended vitamin C is{" "}
                 {data.sex === "Male" || data.sex === "male" ? "90" : "75"}
                 <Box>{percentage.vitaminCMath && percentage.vitaminCMath}</Box>
                 <Box>
@@ -776,29 +853,29 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminD is 20
+                &#128512; Recommended vitamin D is 20
                 <Box>{percentage.vitaminDMath && percentage.vitaminDMath}</Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>
                     {percentage.vitaminD}%
                   </span>{" "}
-                  of recommended vitaminD of a day.
+                  of recommended vitamin D of a day.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminE is 15
+                &#128512; Recommended vitamin E is 15
                 <Box>{percentage.vitaminEMath && percentage.vitaminEMath}</Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>
                     {percentage.vitaminE}%
                   </span>{" "}
-                  of recommended vitaminE of a day.
+                  of recommended vitamin E of a day.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended vitaminK is{" "}
+                &#128512; Recommended vitamin K is{" "}
                 {data.sex === "Male" || data.sex === "male" ? "120" : "90"}
                 <Box>{percentage.vitaminKMath && percentage.vitaminKMath}</Box>
                 <Box>
@@ -806,11 +883,11 @@ const Calories = () => {
                   <span style={{ color: "#008080" }}>
                     {percentage.vitaminK}%
                   </span>{" "}
-                  of recommended vitaminK of a day.
+                  of recommended vitamin K of a day.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended chloine is{" "}
+                &#128512; Recommended Chloine is{" "}
                 {data.sex === "Male" || data.sex === "male" ? "550" : "425"}
                 <Box>{percentage.cholineMath && percentage.cholineMath}</Box>
                 <Box>
@@ -821,8 +898,12 @@ const Calories = () => {
                   of recommended chloine of a day.
                 </Box>
               </Box>
+              {/* Minerals */}
+              <Box sx={{ fontWeight: "bold", pt: 2, fontSize: "22px" }}>
+                Minerals
+              </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended calcium is{" "}
+                &#128512; Recommended Calcium is{" "}
                 {data.sex === "Male" || data.sex === "male" ? "1300" : "1300"}
                 <Box>{percentage.calciumMath && percentage.calciumMath}</Box>
                 <Box>
@@ -844,6 +925,31 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
+                &#128512; Recommended copper is 900
+                <Box>{percentage.copperMath && percentage.copperMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.copper}%</span>{" "}
+                  of recommended copper of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended Magnesium is{" "}
+                {data.sex === "Male" || data.sex === "male"
+                  ? "420 (male)"
+                  : "360 (female)"}
+                <Box>
+                  {percentage.magnesiumMath && percentage.magnesiumMath}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.magnesium}%
+                  </span>{" "}
+                  of recommended magnesium of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
                 &#128512; Recommended sodium is{" "}
                 {data.sex === "Male" || data.sex === "male" ? "1500" : "1500"}
                 <Box>{percentage.sodiumMath && percentage.sodiumMath}</Box>
@@ -851,6 +957,41 @@ const Calories = () => {
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.sodium}%</span>{" "}
                   of recommended sodium of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended selenium is 55
+                <Box>{percentage.seleniumMath && percentage.seleniumMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.selenium}%
+                  </span>{" "}
+                  of recommended selenium of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended zinc is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "11" : "9"}
+                <Box>{percentage.zincMath && percentage.zincMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.zinc}%</span>{" "}
+                  of recommended zinc of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended potassium is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "3400" : "2600"}
+                <Box>
+                  {percentage.potassiumMath && percentage.potassiumMath}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.potassium}%
+                  </span>{" "}
+                  of recommended potassium of a day.
                 </Box>
               </Box>
             </Box>
