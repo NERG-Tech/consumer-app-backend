@@ -58,6 +58,10 @@ const Calories = () => {
     monounsaturatedFat: number;
     fattyAcidSaturatedMath: string;
     fattyAcidSaturated: number;
+    sugar: number;
+    sugarMath: string;
+    cholesterolMath: string;
+    cholesterol: number;
   }>({
     protein: 0,
     proteinMath: "",
@@ -100,6 +104,10 @@ const Calories = () => {
     monounsaturatedFat: 0,
     fattyAcidSaturatedMath: "",
     fattyAcidSaturated: 0,
+    sugar: 0,
+    sugarMath: "",
+    cholesterolMath: "",
+    cholesterol: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -458,8 +466,8 @@ const Calories = () => {
                       Calculate BMR:
                     </Box>
                     <Box>
-                      Man's BMR = 66.5 + (13.75 × weight in kg) + (5.003 ×
-                      height in cm) - (6.75 × age)
+                      Man's BMR = 66.5 + (13.75 x weight in kg) + (5.003 x
+                      height in cm) - (6.75 x age)
                     </Box>
                     <Box
                       sx={{
@@ -627,7 +635,7 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended fattyAcidSaturated Fat is 10% of the
+                &#128512; Recommended fatty acid saturated fat is 10% of the
                 recommended calories.
                 <Box>
                   {percentage.fattyAcidSaturatedMath && (
@@ -644,6 +652,42 @@ const Calories = () => {
                     {percentage.fattyAcidSaturated}%
                   </span>{" "}
                   of fattyAcidSaturated fat.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended sugar is 10% of the recommended calories.
+                <Box>
+                  {percentage.sugarMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.sugarMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.sugar}%</span>{" "}
+                  of sugar.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended cholesterol is 300 MG.
+                <Box>
+                  {percentage.cholesterolMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.cholesterolMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.cholesterol}%
+                  </span>{" "}
+                  of cholesterol.
                 </Box>
               </Box>
               {/* Vitamins */}

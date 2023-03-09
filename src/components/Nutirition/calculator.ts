@@ -516,6 +516,32 @@ export const getPercentages = (nutrition: {
       100
   );
 
+  let sugarPoint = (nutrition.data.calory * 10) / 100;
+  let sugarMath = `Math: ${
+    nutrition.data.calory
+  } cal x 10 / 100 = ${sugarPoint} [${sugarPoint} is 100% of sugar user has to take in calories.] 
+  <br />${sugarPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    sugarPoint
+  )} G (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.sugar)} ${
+    nutrition.sugarUnit
+  }.`;
+  let sugar = getTwoDigitFloat(
+    (nutrition.sugar / caloriesToGram(sugarPoint)) * 100
+  );
+
+  let cholesterolPoint = 300;
+  let cholesterol = getTwoDigitFloat(
+    (nutrition.cholesterol / cholesterolPoint) * 100
+  );
+  let cholesterolMath = `Math: ${cholesterolPoint} ${
+    nutrition.cholesterolUnit
+  } [${cholesterolPoint} is 100% of cholesterol user has to take in calories.] 
+  <br />The user took ${getTwoDigitFloat(nutrition.cholesterol)} ${
+    nutrition.cholesterolUnit
+  }.<br />
+  ${nutrition.cholesterol} / ${cholesterolPoint} * 100 = ${cholesterol}`;
+
   // vitamin
 
   let vitaminAMath =
@@ -700,5 +726,9 @@ export const getPercentages = (nutrition: {
     monounsaturatedFatMath,
     fattyAcidSaturatedMath,
     fattyAcidSaturated,
+    sugarMath,
+    sugar,
+    cholesterol,
+    cholesterolMath,
   };
 };
