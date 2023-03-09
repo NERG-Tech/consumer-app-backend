@@ -46,6 +46,18 @@ const Calories = () => {
     vitaminK: number;
     cholineMath: string;
     chloine: number;
+    calcium: number;
+    calciumMath: string;
+    ironMath: string;
+    iron: number;
+    sodiumMath: string;
+    sodium: number;
+    polyunsaturatedFatMath: string;
+    polyunsaturatedFat: number;
+    monounsaturatedFatMath: string;
+    monounsaturatedFat: number;
+    fattyAcidSaturatedMath: string;
+    fattyAcidSaturated: number;
   }>({
     protein: 0,
     proteinMath: "",
@@ -76,6 +88,18 @@ const Calories = () => {
     vitaminK: 0,
     cholineMath: "",
     chloine: 0,
+    calcium: 0,
+    calciumMath: "",
+    ironMath: "",
+    iron: 0,
+    sodiumMath: "",
+    sodium: 0,
+    polyunsaturatedFatMath: "",
+    polyunsaturatedFat: 0,
+    monounsaturatedFatMath: "",
+    monounsaturatedFat: 0,
+    fattyAcidSaturatedMath: "",
+    fattyAcidSaturated: 0,
   });
   const [msg, setMsg] = useState("");
 
@@ -102,21 +126,32 @@ const Calories = () => {
     console.log(newArray);
   }, [cartUnsorted]);
 
-  useEffect(() => {
+  const calculatePercentages = (data: {
+    sex: string;
+    age: number;
+    weightInKg: number;
+    heightInCm: number;
+    heightFeet: number;
+    weight: number; // pounds
+    bmr: number;
+    calory: number;
+  }) => {
+    if (data)
+      console.log("energyTakenByUser: data.calory,", {
+        energyTakenByUser: data.calory,
+      });
     if (nutrition && data) {
       setPercentage(
         Calculator.getPercentages({
           ...nutrition,
           sex: data.sex,
+          data,
         })
       );
     } else {
       setMsg("Please put age, gender, weight and height");
     }
-  }, [nutrition, data]);
-
-  // console.log(nutrition);
-  // console.log(percentage);
+  };
 
   const [factor, setFactor] = React.useState("Sedentary");
   const [err, setErr] = React.useState("");
@@ -165,8 +200,10 @@ const Calories = () => {
         bmr: bmr,
         calory: calory,
       };
-      // console.log(data);
+
       setData(data);
+
+      calculatePercentages(data);
     } else {
       setErr("Error: please check your input.");
     }
@@ -204,7 +241,7 @@ const Calories = () => {
     }
   };
   return (
-    <Box sx={{ width: "1200px", display: "flex" }}>
+    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
       <Box
         sx={{
           width: "400px",
@@ -343,6 +380,7 @@ const Calories = () => {
           <Box sx={{ mt: 3, pl: 3, lineHeight: "180%" }}>
             <Box sx={{ mb: "4px" }}>Foods you ate (time asc order):</Box>
             {cart &&
+              cart.length > 0 &&
               cart.map((food, index) => {
                 return (
                   <Box key={index}>
@@ -355,15 +393,17 @@ const Calories = () => {
                 );
               })}
 
-            <Box sx={{ pt: 1 }}>
-              === Last entry: {cart && cart[cart.length - 1].description} -{" "}
-              <span style={{ color: "orange", paddingLeft: "2px" }}>
-                {cart &&
-                  dayjs(cart[cart.length - 1].dateTime * 1000).format(
-                    "YYYY/MM/DD h:mm A"
-                  )}
-              </span>
-            </Box>
+            {cart && cart.length > 0 && (
+              <Box sx={{ pt: 1 }}>
+                === Last entry: {cart && cart[cart.length - 1].description} -{" "}
+                <span style={{ color: "orange", paddingLeft: "2px" }}>
+                  {cart &&
+                    dayjs(cart[cart.length - 1].dateTime * 1000).format(
+                      "YYYY/MM/DD h:mm A"
+                    )}
+                </span>
+              </Box>
+            )}
             <Box sx={{ display: "flex" }}>
               {nutrition && (
                 <Box sx={{ color: "blue" }}>
@@ -392,14 +432,18 @@ const Calories = () => {
                     parseInt(dayjs(food.dateTime * 1000).format("HH")) >= 6 &&
                     parseInt(dayjs(food.dateTime * 1000).format("HH")) < 12
                   ) {
-                    return <Box>Morning: {food.description} - Calory: </Box>;
+                    return (
+                      <Box key={index}>
+                        Morning: {food.description} - Calory:{" "}
+                      </Box>
+                    );
                   } else if (
                     parseInt(dayjs(food.dateTime * 1000).format("HH")) >= 12 &&
                     parseInt(dayjs(food.dateTime * 1000).format("HH")) < 18
                   ) {
-                    return <Box>Afternoon: {food.description}</Box>;
+                    return <Box key={index}>Afternoon: {food.description}</Box>;
                   } else {
-                    return <Box>Night: {food.description}</Box>;
+                    return <Box key={index}>Night: {food.description}</Box>;
                   }
                 })}
             </Box>
@@ -468,12 +512,20 @@ const Calories = () => {
           <Box sx={{ mt: 3, pl: 3, lineHeight: "150%", fontSize: "14px" }}>
             <Box sx={{ borderTop: "1px solid lightgray", pt: 1, mt: 1 }}>
               Percentage of nutrients taken:
+              <Box sx={{ fontWeight: "bold", pt: 2, fontSize: "22px" }}>
+                Macro
+              </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended protein is{" "}
-                {data.sex === "Male" || data.sex === "male"
-                  ? "56 g/day (male)"
-                  : "46 g/day (female)"}
-                <Box>{percentage.proteinMath && percentage.proteinMath}</Box>
+                &#128512; Recommended protein is 10%
+                <Box>
+                  {percentage.proteinMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.proteinMath,
+                      }}
+                    />
+                  )}
+                </Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>
@@ -483,11 +535,17 @@ const Calories = () => {
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended fiber is{" "}
-                {data.sex === "Male" || data.sex === "male"
-                  ? "38 g/day (male)"
-                  : "25 g/day (female)"}
-                <Box>{percentage.fiberMath && percentage.fiberMath}</Box>
+                &#128512; Recommended fiber is 14 g/(1000 kcal) = 0.0014
+                g/(1kcal)
+                <Box>
+                  {percentage.fiberMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.fiberMath,
+                      }}
+                    />
+                  )}
+                </Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.fiber}%</span>{" "}
@@ -495,22 +553,102 @@ const Calories = () => {
                 </Box>
               </Box>{" "}
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended carb is 130 g/day
-                <Box>Math: {percentage.carbMath && percentage.carbMath}</Box>
+                &#128512; Recommended carb is 45% of calories.
+                <Box>
+                  {percentage.carbMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.carbMath,
+                      }}
+                    />
+                  )}
+                </Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.carb}%</span>{" "}
-                  of recommended fiber of a day.
+                  of recommended carb of a day.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended fat is {percentage.fatPoint} g/day
-                <Box>{percentage.carb && percentage.fatMath}</Box>
+                &#128512; Recommended fat is 20% of the recommended calories.
+                <Box>
+                  {percentage.fatMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.fatMath,
+                      }}
+                    />
+                  )}
+                </Box>
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.fat}%</span> of
-                  fat in calories.
+                  fat.
                 </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended polyunsaturated fat is 5% of the
+                recommended calories.
+                <Box>
+                  {percentage.polyunsaturatedFatMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.polyunsaturatedFatMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.polyunsaturatedFat}%
+                  </span>{" "}
+                  of polyunsaturatedFat fat.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended Monounsaturated Fat is 15% of the
+                recommended calories.
+                <Box>
+                  {percentage.monounsaturatedFatMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.monounsaturatedFatMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.monounsaturatedFat}%
+                  </span>{" "}
+                  of monounsaturated fat.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended fattyAcidSaturated Fat is 10% of the
+                recommended calories.
+                <Box>
+                  {percentage.fattyAcidSaturatedMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.fattyAcidSaturatedMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.fattyAcidSaturated}%
+                  </span>{" "}
+                  of fattyAcidSaturated fat.
+                </Box>
+              </Box>
+              {/* Vitamins */}
+              <Box sx={{ fontWeight: "bold", pt: 2, fontSize: "22px" }}>
+                Vitamins
               </Box>
               <Box sx={{ pt: 1 }}>
                 &#128512; Recommended vitamin A is{" "}
@@ -637,6 +775,38 @@ const Calories = () => {
                     {percentage.chloine}%
                   </span>{" "}
                   of recommended chloine of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended calcium is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "1300" : "1300"}
+                <Box>{percentage.calciumMath && percentage.calciumMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>
+                    {percentage.calcium}%
+                  </span>{" "}
+                  of recommended calcium of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended iron is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "11" : "18"}
+                <Box>{percentage.ironMath && percentage.ironMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.iron}%</span>{" "}
+                  of recommended iron of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended sodium is{" "}
+                {data.sex === "Male" || data.sex === "male" ? "1500" : "1500"}
+                <Box>{percentage.sodiumMath && percentage.sodiumMath}</Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.sodium}%</span>{" "}
+                  of recommended sodium of a day.
                 </Box>
               </Box>
             </Box>
