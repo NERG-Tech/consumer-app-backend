@@ -9,6 +9,7 @@ import { store } from "./store/store";
 import Layout from "./components/common/Layout";
 import Nutritions from "./components/Nutirition/Nutritions";
 import Calories from "./components/Calories";
+import Water from "./components/Water";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,6 +25,7 @@ root.render(
           <Route path="/" element={<Layout />}>
             <Route path="calories" element={<Calories />} />
             <Route path="nutritions" element={<Nutritions />} />
+            <Route path="water" element={<Water />} />
             <Route path="app" element={<App />} />
           </Route>
         </Routes>

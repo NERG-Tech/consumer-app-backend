@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import { addCart } from "../../store/features/foodSlice";
 import { useAppDispatch } from "../../store/store";
-import { Dayjs } from "dayjs";
 
 type MeasureType = { disseminationText: string };
 type FoodType = {

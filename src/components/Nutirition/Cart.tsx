@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { useAppDispatch } from "../../store/store";
 import { removeCart } from "../../store/features/foodSlice";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 interface ObjectType {
   [key: string]: number;

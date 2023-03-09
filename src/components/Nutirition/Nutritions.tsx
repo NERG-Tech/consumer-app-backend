@@ -4,6 +4,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Button, Box, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { resetCart } from "../../store/features/foodSlice";
+
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
@@ -23,7 +24,6 @@ const Nutritions = () => {
   dayjs.extend(utc);
 
   const [time, setTime] = useState<Dayjs | null>(dayjs(now));
-  // console.log("time", time);
 
   const [data, setData] = useState();
 
@@ -72,10 +72,6 @@ const Nutritions = () => {
     };
     await axios.request(options).then((response) => {
       setData(response.data);
-      //   setFoods((foods) => foods.concat(response.data.foods));
-      // console.log("Version 2) legacy, ", response.data.foods);
-
-      //   return response.data.totalPages;
     });
   };
 
@@ -97,9 +93,6 @@ const Nutritions = () => {
     getDataWithPageNumber2();
     setLoading(false);
   };
-
-  // console.log("Total data) ", data);
-  // console.log("Version 1) ", foods);
 
   return (
     <Box>

@@ -10,10 +10,13 @@ const Layout = () => {
           <Button>Home</Button>
         </Link>
         <Link to="/nutritions">
-          <Button sx={{ ml: 2 }}>Nutritions</Button>
+          <Button sx={{ ml: 3 }}>Nutritions</Button>
+        </Link>
+        <Link to="/water">
+          <Button sx={{ ml: 3 }}>Water</Button>
         </Link>
         <Link to="/calories">
-          <Button sx={{ ml: 2 }}>Calories</Button>
+          <Button sx={{ ml: 3 }}>FINAL Calculations</Button>
         </Link>
       </Box>
       <Box
