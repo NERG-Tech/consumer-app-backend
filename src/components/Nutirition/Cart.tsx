@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { useAppDispatch } from "../../store/store";
 import { removeCart } from "../../store/features/foodSlice";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 interface ObjectType {
   [key: string]: number;
@@ -41,6 +41,7 @@ export const indexes: ObjectType = {
   VitaminK: 36,
   Cholesterol: 42,
   fattyAcidSaturated: 43,
+  DHA: 56,
   MonounsaturatedFat: 63,
   PolyunsaturatedFat: 64,
 };

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface Food {
+export interface Water {
   name: string;
   description: string;
   quantity: number;
@@ -16,14 +16,14 @@ export interface Food {
 }
 
 export interface CartState {
-  cart: Food[];
+  cart: Water[];
 }
 
 const initialState: CartState = {
   cart: [],
 };
 
-export const FoodSlice = createSlice({
+export const WaterSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
@@ -67,5 +67,5 @@ export const FoodSlice = createSlice({
     },
   },
 });
-export default FoodSlice.reducer;
-export const { addCart, resetCart, removeCart } = FoodSlice.actions;
+export default WaterSlice.reducer;
+export const { addCart, resetCart, removeCart } = WaterSlice.actions;

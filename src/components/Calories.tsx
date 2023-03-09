@@ -78,7 +78,11 @@ const Calories = () => {
     zincMath: string;
     potassium: number;
     potassiumMath: string;
+    dha: number;
+    dhaMath: string;
   }>({
+    dhaMath: "",
+    dha: 0,
     potassiumMath: "",
     potassium: 0,
     zinc: 0,
@@ -992,6 +996,23 @@ const Calories = () => {
                     {percentage.potassium}%
                   </span>{" "}
                   of recommended potassium of a day.
+                </Box>
+              </Box>
+              <Box sx={{ pt: 1 }}>
+                &#128512; Recommended DHA is 1 {nutrition.dhaUnit} (=1000 mg)
+                <Box>
+                  {percentage.dhaMath && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: percentage.dhaMath,
+                      }}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  You had{" "}
+                  <span style={{ color: "#008080" }}>{percentage.dha}%</span> of
+                  recommended DHA of a day.
                 </Box>
               </Box>
             </Box>

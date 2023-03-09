@@ -36,7 +36,8 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     magnesium = 0,
     selenium = 0,
     zinc = 0,
-    potassium = 0;
+    potassium = 0,
+    dha = 0;
 
   let proteinUnit = "";
   let totalLipidFatUnit = "";
@@ -72,6 +73,7 @@ export const calculate = (cart: FoodSlice.Food[]) => {
   let seleniumUnit = "";
   let zincUnit = "";
   let potassiumUnit = "";
+  let dhaUnit = "";
 
   cart.forEach((cart) => {
     // Protein
@@ -310,6 +312,12 @@ export const calculate = (cart: FoodSlice.Food[]) => {
       cart.quantity *
       cart.gramPerWeight;
     potassiumUnit = cart.foodNutrients[Cart.indexes["Potassium"]].unitName;
+
+    dha +=
+      cart.foodNutrients[Cart.indexes["DHA"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    dhaUnit = cart.foodNutrients[Cart.indexes["DHA"]].unitName;
   });
 
   return {
@@ -381,6 +389,8 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     polyunsaturatedFatUnit,
     fattyAcidSaturated,
     fattyAcidSaturatedUnit,
+    dha,
+    dhaUnit,
   };
 };
 
@@ -467,6 +477,8 @@ export const getPercentages = (nutrition: {
   zincUnit: string;
   potassium: number;
   potassiumUnit: string;
+  dha: number;
+  dhaUnit: string;
   data: {
     sex: string;
     age: number;
@@ -613,7 +625,9 @@ export const getPercentages = (nutrition: {
   <br />The user took ${getTwoDigitFloat(nutrition.cholesterol)} ${
     nutrition.cholesterolUnit
   }.<br />
-  ${nutrition.cholesterol} / ${cholesterolPoint} * 100 = ${cholesterol}`;
+  ${getTwoDigitFloat(
+    nutrition.cholesterol
+  )} / ${cholesterolPoint} * 100 = ${cholesterol}`;
 
   // vitamin
 
@@ -810,7 +824,14 @@ export const getPercentages = (nutrition: {
       ? getTwoDigitFloat((nutrition.potassium * 100) / 3400)
       : getTwoDigitFloat((nutrition.potassium * 100) / 2600);
 
+  let dhaMath = `Math: ((${getTwoDigitFloat(nutrition.dha)} * 100) / 1) ${
+    nutrition.dhaUnit
+  }<br />You had ${getTwoDigitFloat(nutrition.dha)} ${nutrition.dhaUnit}`;
+  let dha = getTwoDigitFloat(nutrition.dha * 100);
+
   return {
+    dha,
+    dhaMath,
     potassiumMath,
     potassium,
     zincMath,

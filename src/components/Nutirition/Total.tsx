@@ -148,6 +148,9 @@ const Total = () => {
               Potassium: {nutrition.potassium.toFixed(2)}{" "}
               {nutrition.potassiumUnit}
             </Box>
+            <Box>
+              DHA: {nutrition.dha.toFixed(2)} {nutrition.dhaUnit}
+            </Box>
             <Box
               sx={{
                 color: "#4682B4",
