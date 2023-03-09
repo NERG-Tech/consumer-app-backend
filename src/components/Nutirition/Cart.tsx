@@ -41,6 +41,7 @@ export const indexes: ObjectType = {
   VitaminK: 36,
   Cholesterol: 42,
   fattyAcidSaturated: 43,
+  DHA: 56,
   MonounsaturatedFat: 63,
   PolyunsaturatedFat: 64,
 };
