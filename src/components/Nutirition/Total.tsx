@@ -131,6 +131,23 @@ const Total = () => {
               {nutrition.fattyAcidSaturated.toFixed(2)}{" "}
               {nutrition.fattyAcidSaturatedUnit}
             </Box>
+            <Box>
+              Copper: {nutrition.copper.toFixed(2)} {nutrition.copperUnit}
+            </Box>
+            <Box>
+              Magnesium: {nutrition.magnesium.toFixed(2)}{" "}
+              {nutrition.magnesiumUnit}
+            </Box>
+            <Box>
+              Selenium: {nutrition.selenium.toFixed(2)} {nutrition.seleniumUnit}
+            </Box>
+            <Box>
+              Zinc: {nutrition.zinc.toFixed(2)} {nutrition.zincUnit}
+            </Box>
+            <Box>
+              Potassium: {nutrition.potassium.toFixed(2)}{" "}
+              {nutrition.potassiumUnit}
+            </Box>
             <Box
               sx={{
                 color: "#4682B4",
