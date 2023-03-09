@@ -35,6 +35,9 @@ export const indexes: ObjectType = {
   Sodium: 15,
   Retinol: 19,
   Energy: 3,
+  MonounsaturatedFat: 63,
+  PolyunsaturatedFat: 64,
+  fattyAcidSaturated: 43,
 };
 
 type Props = {

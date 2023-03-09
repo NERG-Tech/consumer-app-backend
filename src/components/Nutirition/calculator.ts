@@ -28,7 +28,10 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     sugar = 0,
     iron = 0,
     sodium = 0,
-    retinol = 0;
+    retinol = 0,
+    monounsaturatedFat = 0,
+    polyunsaturatedFat = 0,
+    fattyAcidSaturated = 0;
 
   let proteinUnit = "";
   let totalLipidFatUnit = "";
@@ -56,6 +59,9 @@ export const calculate = (cart: FoodSlice.Food[]) => {
   let ironUnit = "";
   let sodiumUnit = "";
   let retinolUnit = "";
+  let monounsaturatedFatUnit = "";
+  let polyunsaturatedFatUnit = "";
+  let fattyAcidSaturatedUnit = "";
 
   cart.forEach((cart) => {
     // Protein
@@ -241,6 +247,28 @@ export const calculate = (cart: FoodSlice.Food[]) => {
       cart.quantity *
       cart.gramPerWeight;
     retinolUnit = cart.foodNutrients[Cart.indexes["Retinol"]].unitName;
+
+    monounsaturatedFat +=
+      cart.foodNutrients[Cart.indexes["MonounsaturatedFat"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    monounsaturatedFatUnit =
+      cart.foodNutrients[Cart.indexes["MonounsaturatedFat"]].unitName;
+
+    polyunsaturatedFat +=
+      cart.foodNutrients[Cart.indexes["PolyunsaturatedFat"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    polyunsaturatedFatUnit =
+      cart.foodNutrients[Cart.indexes["PolyunsaturatedFat"]].unitName;
+
+    // fattyAcidSaturated
+    fattyAcidSaturated +=
+      cart.foodNutrients[Cart.indexes["fattyAcidSaturated"]].value *
+      cart.quantity *
+      cart.gramPerWeight;
+    fattyAcidSaturatedUnit =
+      cart.foodNutrients[Cart.indexes["fattyAcidSaturated"]].unitName;
   });
 
   return {
@@ -296,7 +324,25 @@ export const calculate = (cart: FoodSlice.Food[]) => {
     sodiumUnit,
     retinol,
     retinolUnit,
+    monounsaturatedFat,
+    monounsaturatedFatUnit,
+    polyunsaturatedFat,
+    polyunsaturatedFatUnit,
+    fattyAcidSaturated,
+    fattyAcidSaturatedUnit,
   };
+};
+
+const getTwoDigitFloat = (num: number): number => {
+  return parseFloat(num.toFixed(2));
+};
+
+// const gramToCalory = (grams: number): number => {
+//   return getTwoDigitFloat(grams * 7.716179);
+// };
+
+const caloriesToGram = (calories: number): number => {
+  return getTwoDigitFloat(calories * 0.129598);
 };
 
 export const getPercentages = (nutrition: {
@@ -354,37 +400,123 @@ export const getPercentages = (nutrition: {
   waterUnit: string;
   sex: string;
   calory: number;
+  polyunsaturatedFat: number;
+  polyunsaturatedFatUnit: string;
+  monounsaturatedFat: number;
+  monounsaturatedFatUnit: string;
+  fattyAcidSaturated: number;
+  fattyAcidSaturatedUnit: string;
+  data: {
+    sex: string;
+    age: number;
+    weightInKg: number;
+    heightInCm: number;
+    heightFeet: number;
+    weight: number; // pounds
+    bmr: number;
+    calory: number;
+  };
 }) => {
-  let proteinMath =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? `Math: (${getTwoDigitFloat(nutrition.protein)} * 100) / 56 `
-      : `Math: (${getTwoDigitFloat(nutrition.protein)} * 100) / 46 `;
-  let protein =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? getTwoDigitFloat((nutrition.protein * 100) / 56)
-      : getTwoDigitFloat((nutrition.protein * 100) / 46);
+  let proteinPoint = (nutrition.data.calory * 10) / 100;
+  let proteinMath = `Math: ${
+    nutrition.data.calory
+  } cal x 10 / 100 = ${proteinPoint} kcal/day.  
+  <br />${proteinPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    proteinPoint
+  )} ${nutrition.proteinUnit} (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.protein)} ${
+    nutrition.proteinUnit
+  } of protein`;
+  let protein = getTwoDigitFloat(
+    (nutrition.protein / caloriesToGram(proteinPoint)) * 100
+  );
 
-  let fiberMath =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? `Math: ((${getTwoDigitFloat(nutrition.fiber)} * 100) / 38)`
-      : `Math: ((${getTwoDigitFloat(nutrition.fiber)} * 100) / 25)`;
-  let fiber =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? getTwoDigitFloat((nutrition.fiber * 100) / 38)
-      : getTwoDigitFloat((nutrition.fiber * 100) / 25);
+  let fiberPoint = nutrition.data.calory * 0.0014;
+  let fiberMath = `Math: ${
+    nutrition.data.calory
+  } cal x 0.0014 = ${fiberPoint} [${fiberPoint} is 100% of fiber user has to take  in calories.] 
+  <br />${proteinPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    proteinPoint
+  )} ${nutrition.proteinUnit} (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.fiber)} ${
+    nutrition.fiberUnit
+  } of fiber.`;
+  let fiber = getTwoDigitFloat((nutrition.fiber / fiberPoint) * 100);
 
-  let carbMath = `((${getTwoDigitFloat(nutrition.carbohydrate)} * 100) / 130`;
-  let carb = getTwoDigitFloat((nutrition.carbohydrate * 100) / 130);
+  let carbPoint = (nutrition.data.calory * 45) / 100;
+  let carbMath = `Math: ${
+    nutrition.data.calory
+  } cal x 45 / 100 = ${carbPoint} [${carbPoint} is 100% of carb user has to take in calories.] 
+  <br />${carbPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    carbPoint
+  )} ${nutrition.proteinUnit} (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.carbohydrate)} ${
+    nutrition.proteinUnit
+  }.`;
+  let carb = getTwoDigitFloat(
+    (nutrition.carbohydrate / caloriesToGram(carbPoint)) * 100
+  );
 
-  let fatPoint = getTwoDigitFloat(nutrition.energy * 0.2);
-  let fat = getTwoDigitFloat((nutrition.totalLipidFat / fatPoint) * 100);
-  let fatMath = `Calory: ${getTwoDigitFloat(
-    nutrition.energy
-  )} kcal/day, 100% Fat Point (20%) is ${getTwoDigitFloat(
+  let fatPoint = (nutrition.data.calory * 20) / 100;
+  let fatMath = `Math: ${
+    nutrition.data.calory
+  } cal x 20 / 100 = ${fatPoint}. [${fatPoint} is 100% of fat user has to take in calories.] 
+  <br />${fatPoint} kcal/day => convert calories to gram => ${caloriesToGram(
     fatPoint
-  )} kcal/day, You had ${nutrition.totalLipidFat} ${
+  )} ${nutrition.totalLipidFatUnit} (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.totalLipidFat)} ${
     nutrition.totalLipidFatUnit
-  } `;
+  }.`;
+  let fat = getTwoDigitFloat(
+    (nutrition.totalLipidFat / caloriesToGram(fatPoint)) * 100
+  );
+
+  let polyunsaturatedFatPoint = (nutrition.data.calory * 5) / 100;
+  let polyunsaturatedFatMath = `Math: ${
+    nutrition.data.calory
+  } cal x 5 / 100 = ${polyunsaturatedFatPoint} [${polyunsaturatedFatPoint} is 100% of polyunsaturated fat user has to take in calories.] 
+  <br />${polyunsaturatedFatPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    polyunsaturatedFatPoint
+  )} G (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.polyunsaturatedFat)} ${
+    nutrition.polyunsaturatedFatUnit
+  }.`;
+  let polyunsaturatedFat = getTwoDigitFloat(
+    (nutrition.polyunsaturatedFat / caloriesToGram(polyunsaturatedFatPoint)) *
+      100
+  );
+
+  let monounsaturatedFatPoint = (nutrition.data.calory * 15) / 100;
+  let monounsaturatedFatMath = `Math: ${
+    nutrition.data.calory
+  } cal x 15 / 100 = ${monounsaturatedFatPoint} [${monounsaturatedFatPoint} is 100% of monounsaturated Fat user has to take in calories.] 
+  <br />${monounsaturatedFatPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    monounsaturatedFatPoint
+  )} G (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.monounsaturatedFat)} ${
+    nutrition.monounsaturatedFatUnit
+  }.`;
+  let monounsaturatedFat = getTwoDigitFloat(
+    (nutrition.monounsaturatedFat / caloriesToGram(monounsaturatedFatPoint)) *
+      100
+  );
+
+  let fattyAcidSaturatedPoint = (nutrition.data.calory * 10) / 100;
+  let fattyAcidSaturatedMath = `Math: ${
+    nutrition.data.calory
+  } cal x 10 / 100 = ${fattyAcidSaturatedPoint} [${fattyAcidSaturatedPoint} is 100% of fatty Acid Saturated Fat user has to take in calories.] 
+  <br />${fattyAcidSaturatedPoint} kcal/day => convert calories to gram => ${caloriesToGram(
+    fattyAcidSaturatedPoint
+  )} G (100% point)
+  <br />The user took ${getTwoDigitFloat(nutrition.fattyAcidSaturated)} ${
+    nutrition.fattyAcidSaturatedUnit
+  }.`;
+  let fattyAcidSaturated = getTwoDigitFloat(
+    (nutrition.fattyAcidSaturated / caloriesToGram(fattyAcidSaturatedPoint)) *
+      100
+  );
+
+  // vitamin
 
   let vitaminAMath =
     nutrition.sex === "Male" || nutrition.sex === "male"
@@ -501,6 +633,29 @@ export const getPercentages = (nutrition: {
       ? getTwoDigitFloat((nutrition.choline * 100) / 550)
       : getTwoDigitFloat((nutrition.choline * 100) / 425);
 
+  let calciumMath = `Math: ((${getTwoDigitFloat(
+    nutrition.calcium
+  )} * 100) / 1300) ${nutrition.calciumUnit}`;
+  let calcium = getTwoDigitFloat((nutrition.calcium * 100) / 1300);
+
+  let ironMath =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? `Math: ((${getTwoDigitFloat(nutrition.iron)} * 100) / 11) ${
+          nutrition.ironUnit
+        }`
+      : `Math: ((${getTwoDigitFloat(nutrition.iron)} * 100) / 18) ${
+          nutrition.ironUnit
+        }`;
+  let iron =
+    nutrition.sex === "Male" || nutrition.sex === "male"
+      ? getTwoDigitFloat((nutrition.iron * 100) / 11)
+      : getTwoDigitFloat((nutrition.iron * 100) / 18);
+
+  let sodiumMath = `Math: ((${getTwoDigitFloat(
+    nutrition.sodium
+  )} * 100) / 1500) ${nutrition.sodiumUnit}`;
+  let sodium = getTwoDigitFloat((nutrition.sodium * 100) / 1500);
+
   return {
     protein,
     proteinMath,
@@ -533,9 +688,17 @@ export const getPercentages = (nutrition: {
     vitaminK,
     cholineMath,
     chloine,
+    calciumMath,
+    calcium,
+    ironMath,
+    iron,
+    sodiumMath,
+    sodium,
+    polyunsaturatedFatMath,
+    polyunsaturatedFat,
+    monounsaturatedFat,
+    monounsaturatedFatMath,
+    fattyAcidSaturatedMath,
+    fattyAcidSaturated,
   };
-};
-
-const getTwoDigitFloat = (num: number): number => {
-  return parseFloat(num.toFixed(2));
 };

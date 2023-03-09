@@ -7,13 +7,11 @@ import * as Calculator from "./calculator";
 const Total = () => {
   const cart = useAppSelector((state) => state.cart.cart);
   const [nutrition, setNutrition] = useState<any>(null);
+  console.log("nutrition", nutrition);
 
   useEffect(() => {
-    // console.log("Calculator.calculate(cart)", Calculator.calculate(cart));
     setNutrition(Calculator.calculate(cart));
   }, [cart]);
-
-  // console.log(nutrition);
 
   return (
     <div>
@@ -119,6 +117,19 @@ const Total = () => {
             </Box>
             <Box>
               Retinol: {nutrition.retinol.toFixed(2)} {nutrition.retinolUnit}
+            </Box>
+            <Box>
+              Monounsaturated Fat: {nutrition.monounsaturatedFat.toFixed(2)}{" "}
+              {nutrition.monounsaturatedFatUnit}
+            </Box>
+            <Box>
+              Polyunsaturated Fat: {nutrition.polyunsaturatedFat.toFixed(2)}{" "}
+              {nutrition.polyunsaturatedFatUnit}
+            </Box>
+            <Box>
+              Fatty acid saturated Fat:{" "}
+              {nutrition.fattyAcidSaturated.toFixed(2)}{" "}
+              {nutrition.fattyAcidSaturatedUnit}
             </Box>
             <Box
               sx={{
