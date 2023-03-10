@@ -398,12 +398,12 @@ const getTwoDigitFloat = (num: number): number => {
   return parseFloat(num.toFixed(2));
 };
 
-// const gramToCalory = (grams: number): number => {
-//   return getTwoDigitFloat(grams * 7.716179);
-// };
-
 const caloriesToGram = (calories: number): number => {
   return getTwoDigitFloat(calories * 0.129598);
+};
+
+const gramToOunces = (gram: number): number => {
+  return getTwoDigitFloat(gram / 28.35);
 };
 
 export const getPercentages = (nutrition: {
@@ -479,6 +479,8 @@ export const getPercentages = (nutrition: {
   potassiumUnit: string;
   dha: number;
   dhaUnit: string;
+  recommendedWater: number;
+  totalWater: number;
   data: {
     sex: string;
     age: number;
@@ -490,17 +492,22 @@ export const getPercentages = (nutrition: {
     calory: number;
   };
 }) => {
-  let waterPoint =
-    nutrition.sex === "Male" || nutrition.sex === "male" ? 3700 : 2700;
-  let waterMath =
-    nutrition.sex === "Male" || nutrition.sex === "male"
-      ? `Math: 3.7 L => convert to L => 3.7 * 1,000 => ${waterPoint} g
-      <br />You had ${getTwoDigitFloat(nutrition.water)} ${nutrition.waterUnit}`
-      : `Math: 2.7 L => convert to L => 2.7 * 1,000 => ${waterPoint} g
-      <br />You had ${getTwoDigitFloat(nutrition.water)} ${
-          nutrition.waterUnit
-        }`;
-  let water = getTwoDigitFloat((nutrition.water / waterPoint) * 100);
+  console.log("recommendedWater in calculator", nutrition.recommendedWater);
+  let waterPoint = nutrition.recommendedWater;
+  let waterMath = `Math: Water intake from drinking: ${
+    nutrition.totalWater
+  } ounces<br />Water from food: ${nutrition.water.toFixed(2)} ${
+    nutrition.waterUnit
+  }<br />Convert water from food to ounces: ${nutrition.water.toFixed(
+    2
+  )} / 28.35
+ = ${gramToOunces(nutrition.water)} ounces<br />Total water intake of the user: 
+ ${gramToOunces(nutrition.water)} + ${nutrition.totalWater} = ${
+    gramToOunces(nutrition.water) + nutrition.totalWater
+  } `;
+  let water = getTwoDigitFloat(
+    (gramToOunces(nutrition.water) + nutrition.totalWater / waterPoint) * 100
+  );
 
   let proteinPoint = (nutrition.data.calory * 10) / 100;
   let proteinMath = `Math: ${
