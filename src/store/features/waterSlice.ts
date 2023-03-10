@@ -1,17 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Water {
-  name: string;
-  description: string;
-  quantity: number;
-  foodNutrients: Array<{
-    foodNutrientId: string;
-    nutrientName: string;
-    unitName: string;
-    value: number;
-  }>;
-  disseminationText: string;
-  gramPerWeight: number;
+  value: number;
   dateTime: number;
 }
 
@@ -27,45 +17,22 @@ export const WaterSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    removeCart: (
+    addWater: (
       state,
       action: PayloadAction<{
-        description: string;
-        disseminationText: string;
-      }>
-    ) => {
-      state.cart = state.cart.filter(
-        (item) =>
-          item.description !== action.payload.description ||
-          item.disseminationText !== action.payload.disseminationText
-      );
-    },
-    addCart: (
-      state,
-      action: PayloadAction<{
-        name: string;
-        description: string;
-        quantity: number;
-        foodNutrients: Array<any>;
-        disseminationText: string;
-        gramPerWeight: number;
+        value: number;
         dateTime: number;
       }>
     ) => {
       state.cart.push({
-        name: action.payload.name,
-        description: action.payload.description,
-        quantity: action.payload.quantity,
-        foodNutrients: action.payload.foodNutrients,
-        disseminationText: action.payload.disseminationText,
-        gramPerWeight: action.payload.gramPerWeight,
+        value: action.payload.value,
         dateTime: action.payload.dateTime,
       });
     },
-    resetCart: (state, action) => {
+    resetWater: (state, action) => {
       state.cart = [];
     },
   },
 });
 export default WaterSlice.reducer;
-export const { addCart, resetCart, removeCart } = WaterSlice.actions;
+export const { addWater, resetWater } = WaterSlice.actions;

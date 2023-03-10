@@ -158,6 +158,18 @@ const Calories = () => {
     calory: number;
   }>();
 
+  const [totalWater, setTotalWater] = useState<number>();
+  const waterCart = useAppSelector((state) => state.waterCart.cart);
+  console.log("waterCart", waterCart);
+
+  useEffect(() => {
+    let total = 0;
+    waterCart.map((water, index) => {
+      total += water.value;
+    });
+    setTotalWater(total);
+  }, []);
+
   useEffect(() => {
     setNutrition(Calculator.calculate(cartUnsorted));
 
@@ -180,21 +192,55 @@ const Calories = () => {
     bmr: number;
     calory: number;
   }) => {
-    if (data)
-      console.log("energyTakenByUser: data.calory,", {
-        energyTakenByUser: data.calory,
-      });
     if (nutrition && data) {
+      // calculate water
+      const recommendedWater = calculateRecommendedWater(
+        data.sex,
+        data.age,
+        data.weightInKg,
+        data.heightInCm
+      );
       setPercentage(
         Calculator.getPercentages({
           ...nutrition,
           sex: data.sex,
           data,
+          recommendedWater: recommendedWater,
+          totalWater: totalWater,
         })
       );
     } else {
       setMsg("Please put age, gender, weight and height");
     }
+  };
+
+  const [waterWeight, setWaterWeight] = useState<number | 0>(); // ounces
+
+  const kgToPounds = (value: number): number => {
+    return value * 2.205;
+  };
+  const poundToLiter = (value: number): number => {
+    return value / 2.204623;
+  };
+  const literToOunces = (value: number): number => {
+    return value * 33.814;
+  };
+  // return water in ounces
+  const calculateRecommendedWater = (
+    sex: string,
+    age: number,
+    weightInKg: number,
+    heightInCm: number
+  ) => {
+    let tbw = 2.447 - 0.09156 * age + 0.1074 * heightInCm + 0.3362 * weightInKg;
+    let weightInPounds = kgToPounds(weightInKg);
+    let waterWeightInPounds = (weightInPounds * tbw) / 100;
+    let waterWeightInLiter = poundToLiter(waterWeightInPounds);
+    let waterWeightInLiterDividedBy2 = waterWeightInLiter / 2;
+    let waterWeightDaily = waterWeightInLiterDividedBy2 / 7;
+    let waterWeightDailyInOunces = literToOunces(waterWeightDaily);
+    setWaterWeight(parseFloat(waterWeightDailyInOunces.toFixed(2)));
+    return parseFloat(waterWeightDailyInOunces.toFixed(2));
   };
 
   const [factor, setFactor] = React.useState("Sedentary");
@@ -457,10 +503,14 @@ const Calories = () => {
               )}
             </Box>
 
+            <Box sx={{ borderTop: "1px solid lightgray", mt: 2, pt: 2 }}>
+              Water Intake : {totalWater} ounces
+              <Box></Box>
+            </Box>
+
             <Box
               sx={{
                 borderTop: "1px solid lightgray",
-                pl: 3,
                 pt: 2,
                 fontSize: "14px",
                 mt: 2,
@@ -562,7 +612,7 @@ const Calories = () => {
               <Box sx={{ pt: 1 }}>
                 &#128512; Recommended water is{" "}
                 {data.sex === "Male" || data.sex === "male"
-                  ? "3.7 L/day (Man)"
+                  ? waterWeight + " ounces"
                   : "2.7 L/day (Woman)"}
                 <Box>
                   {percentage.waterMath && (
@@ -576,7 +626,7 @@ const Calories = () => {
                 <Box>
                   You had{" "}
                   <span style={{ color: "#008080" }}>{percentage.water}%</span>{" "}
-                  of recommended water from water.
+                  of recommended water.
                 </Box>
               </Box>
               <Box sx={{ pt: 1 }}>
