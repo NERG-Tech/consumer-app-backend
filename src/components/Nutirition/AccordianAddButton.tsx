@@ -24,11 +24,27 @@ const AccordianAddButton = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const [quantity, setQuantity] = React.useState(1);
+
+  console.log("props.food", props);
   return (
     <div>
       <Box sx={{ display: "flex", py: 1 }}>
         <Box sx={{ width: "300px", fontSize: "13px" }}>
-          {props.measure.disseminationText}
+          {props.measure.disseminationText} <br />-{" "}
+          {(props.food.foodNutrients[5].value * props.gramPerWeight).toFixed(2)}{" "}
+          {props.food.foodNutrients[5].unitName} Water
+          <br />+{" "}
+          {(props.food.foodNutrients[3].value * props.gramPerWeight).toFixed(
+            2
+          )}{" "}
+          Cals
+          <br />- Health Activity: +{" "}
+          {(
+            props.food.foodNutrients[3].value *
+            props.gramPerWeight *
+            20
+          ).toFixed(0)}{" "}
+          steps
         </Box>
         <input
           style={{
@@ -57,7 +73,7 @@ const AccordianAddButton = (props: Props) => {
               })
             )
           }
-          sx={{ border: "1px solid lightgrey" }}
+          sx={{ border: "1px solid lightgrey", height: "37px" }}
         >
           Add
         </Button>
