@@ -406,6 +406,13 @@ const gramToOunces = (gram: number): number => {
   return getTwoDigitFloat(gram / 28.35);
 };
 
+const kgToPounds = (value: number): number => {
+  return value * 2.205;
+};
+const ouncesToCups = (value: number): number => {
+  return getTwoDigitFloat(value / 8);
+};
+
 export const getPercentages = (nutrition: {
   caffeine: number;
   caffeineUnit: string;
@@ -493,21 +500,108 @@ export const getPercentages = (nutrition: {
   };
 }) => {
   console.log("recommendedWater in calculator", nutrition.recommendedWater);
-  let waterPoint = nutrition.recommendedWater;
-  let waterMath = `Math: Water intake from drinking: ${
-    nutrition.totalWater
-  } ounces<br />Water from food: ${nutrition.water.toFixed(2)} ${
-    nutrition.waterUnit
-  }<br />Convert water from food to ounces: ${nutrition.water.toFixed(
-    2
-  )} / 28.35
- = ${gramToOunces(nutrition.water)} ounces<br />Total water intake of the user: 
- ${gramToOunces(nutrition.water)} + ${nutrition.totalWater} = ${
-    gramToOunces(nutrition.water) + nutrition.totalWater
-  } `;
-  let water = getTwoDigitFloat(
-    (gramToOunces(nutrition.water) + nutrition.totalWater / waterPoint) * 100
-  );
+
+  let waterMath;
+  let water;
+
+  if (nutrition.data.sex === "Male" || nutrition.data.sex === "male") {
+    let tbw =
+      2.447 -
+      0.09156 * nutrition.data.age +
+      0.1074 * nutrition.data.heightInCm +
+      0.3362 * nutrition.data.weightInKg;
+
+    let weightInPounds = kgToPounds(nutrition.data.weightInKg);
+    let recommendedWater =
+      ((weightInPounds * tbw) / 100 / 2.204623 / 2 / 7) * 33.814;
+    let totalIntakeWater =
+      parseFloat(gramToOunces(nutrition.water).toFixed(2)) +
+      nutrition.totalWater; // ounces
+
+    water = getTwoDigitFloat((totalIntakeWater / recommendedWater) * 100);
+    waterMath = `&#128512; Recommended water is ${recommendedWater.toFixed(
+      2
+    )} ounces<br />Water from food: ${nutrition.water.toFixed(2)} ${
+      nutrition.waterUnit
+    }<br />Convert water from food to ounces: ${nutrition.water.toFixed(
+      2
+    )} / 28.35
+    = ${gramToOunces(
+      nutrition.water
+    )} ounces<br />&#10070; Water from food: ${gramToOunces(
+      nutrition.water
+    )} ounces<br />&#10070; Water intake from drinking: ${
+      nutrition.totalWater
+    } ounces
+  <br />&#10095;&#10095; Total water intake of the user: 
+  <span className="green">${gramToOunces(nutrition.water)} + ${
+      nutrition.totalWater
+    } = ${totalIntakeWater} ounces</span>
+    <br /> 
+
+    TBW: 2.447 -
+    0.09156 * ${nutrition.data.age} +
+    0.1074 * ${nutrition.data.heightInCm} +
+    0.3362 * ${nutrition.data.weightInKg} = ${tbw.toFixed(2)}%<br />
+    &#10095;&#10095; Recommended water intake from our formula: ${weightInPounds.toFixed(
+      1
+    )} * ${tbw.toFixed(
+      2
+    )} / 100 / 2.204623 / 2 / 7 * 33.814 &#10144;&#10144; ${recommendedWater.toFixed(
+      2
+    )} ounces per day.
+    <br />About ${ouncesToCups(recommendedWater)} cups of water
+    <br />Result: (${totalIntakeWater}   / ${recommendedWater.toFixed(
+      2
+    )}) * 100 = ${water}`;
+  } else {
+    let tbw =
+      -2.097 +
+      0.1069 * nutrition.data.heightInCm +
+      0.2466 * nutrition.data.weightInKg;
+    let weightInPounds = kgToPounds(nutrition.data.weightInKg);
+    let recommendedWater =
+      ((weightInPounds * tbw) / 100 / 2.204623 / 2 / 7) * 33.814;
+    let totalIntakeWater =
+      parseFloat(gramToOunces(nutrition.water).toFixed(2)) +
+      nutrition.totalWater; // ounces
+
+    water = getTwoDigitFloat((totalIntakeWater / recommendedWater) * 100);
+    waterMath = `&#128512; Recommended water is ${recommendedWater.toFixed(
+      2
+    )} ounces<br />Water from food: ${nutrition.water.toFixed(2)} ${
+      nutrition.waterUnit
+    }<br />Convert water from food to ounces: ${nutrition.water.toFixed(
+      2
+    )} / 28.35
+    = ${gramToOunces(
+      nutrition.water
+    )} ounces<br />&#10070; Water from food: ${gramToOunces(
+      nutrition.water
+    )} ounces<br />&#10070; Water intake from drinking: ${
+      nutrition.totalWater
+    } ounces
+  <br />&#10095;&#10095; Total water intake of the user: 
+  <span className="green">${gramToOunces(nutrition.water)} + ${
+      nutrition.totalWater
+    } = ${totalIntakeWater} ounces</span>
+    <br /> 
+
+    TBW: -2.097 + 0.1069 * ${nutrition.data.heightInCm} + 0.2466 * ${
+      nutrition.data.weightInKg
+    } = ${tbw.toFixed(2)}%<br />
+    &#10095;&#10095; Recommended water intake from our formula: ${weightInPounds.toFixed(
+      1
+    )} * ${tbw.toFixed(
+      2
+    )} / 100 / 2.204623 / 2 / 7 * 33.814 &#10144;&#10144; ${recommendedWater.toFixed(
+      2
+    )} ounces per day.
+    <br />About ${ouncesToCups(recommendedWater)} cups of water
+    <br />Result: (${totalIntakeWater}   / ${recommendedWater.toFixed(
+      2
+    )}) * 100 = ${water}`;
+  }
 
   let proteinPoint = (nutrition.data.calory * 10) / 100;
   let proteinMath = `Math: ${

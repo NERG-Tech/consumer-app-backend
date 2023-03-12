@@ -195,7 +195,6 @@ const Calories = () => {
     if (nutrition && data) {
       // calculate water
       const recommendedWater = calculateRecommendedWater(
-        data.sex,
         data.age,
         data.weightInKg,
         data.heightInCm
@@ -227,12 +226,12 @@ const Calories = () => {
   };
   // return water in ounces
   const calculateRecommendedWater = (
-    sex: string,
     age: number,
     weightInKg: number,
     heightInCm: number
   ) => {
     let tbw = 2.447 - 0.09156 * age + 0.1074 * heightInCm + 0.3362 * weightInKg;
+    console.log("tbw", tbw);
     let weightInPounds = kgToPounds(weightInKg);
     let waterWeightInPounds = (weightInPounds * tbw) / 100;
     let waterWeightInLiter = poundToLiter(waterWeightInPounds);
@@ -610,10 +609,6 @@ const Calories = () => {
                 Macro
               </Box>
               <Box sx={{ pt: 1 }}>
-                &#128512; Recommended water is{" "}
-                {data.sex === "Male" || data.sex === "male"
-                  ? waterWeight + " ounces"
-                  : "2.7 L/day (Woman)"}
                 <Box>
                   {percentage.waterMath && (
                     <div
