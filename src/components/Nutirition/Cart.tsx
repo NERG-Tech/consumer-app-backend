@@ -65,7 +65,6 @@ const Cart = (props: Props) => {
 
   let html = ``;
   for (const ingredient in indexes) {
-    // console.log(ingredient);
     let index = indexes[ingredient as keyof ObjectType];
     html +=
       "<br /><Box> " +
